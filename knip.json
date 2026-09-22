@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/app/**/*.{js,ts,jsx,tsx}"
+  ],
+  "project": [
+    "src/**/*.{js,ts,jsx,tsx,css}"
+  ],
+  "ignore": [
+    "src/components/ui/**"
+  ],
+  "ignoreDependencies": [
+    "@shadcn/react",
+    "cmdk",
+    "input-otp",
+    "react-day-picker",
+    "react-resizable-panels",
+    "recharts"
+  ],
+  "ignoreExportsUsedInFile": true
+}
