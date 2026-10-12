@@ -5,13 +5,13 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 
-// Load server environment
-config({ path: resolve(process.cwd(), "apps/server/.env.local") });
-config({ path: resolve(process.cwd(), "apps/server/.env") });
+// Load client environment
+config({ path: resolve(process.cwd(), "apps/client/.env.local") });
+config({ path: resolve(process.cwd(), "apps/client/.env") });
 config({ path: resolve(process.cwd(), ".env.local") });
 config({ path: resolve(process.cwd(), ".env") });
 
-import * as schema from "../apps/server/src/drizzle/schema.js";
+import * as schema from "../apps/client/src/lib/db/schema.js";
 import {
   users,
   accounts,
@@ -24,7 +24,7 @@ import {
   products,
   collections,
   productCollections,
-} from "../apps/server/src/drizzle/schema.js";
+} from "../apps/client/src/lib/db/schema.js";
 
 const dbUrl = process.env.DATABASE_URL;
 if (!dbUrl) {

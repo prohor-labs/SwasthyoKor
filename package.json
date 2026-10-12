@@ -8,7 +8,7 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "seed:rich": "NODE_PATH=apps/server/node_modules bun scripts/seed-rich-data.ts"
+    "seed:rich": "NODE_PATH=apps/client/node_modules bun scripts/seed-rich-data.ts"
   },
   "devDependencies": {
     "prettier": "3.9.6",
