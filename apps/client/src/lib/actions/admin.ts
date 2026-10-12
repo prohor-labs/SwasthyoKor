@@ -104,6 +104,82 @@ export async function createProductAction(formData: FormData) {
   }
 }
 
+export async function updateProductAction(formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = formData.get("id") as string;
+    const title = (formData.get("title") as string)?.trim();
+    const description = (formData.get("description") as string)?.trim() || "";
+    const availableForSale = formData.get("availableForSale") === "true";
+    const collectionId = (formData.get("collectionId") as string) || null;
+    const variantsJson = formData.get("variants") as string;
+
+    if (!id || !title) {
+      return { success: false, error: "পণ্যের আইডি এবং শিরোনাম প্রয়োজন।" };
+    }
+
+    const now = new Date();
+    await db
+      .update(products)
+      .set({
+        title,
+        description,
+        availableForSale,
+        updatedAt: now,
+      })
+      .where(eq(products.id, id));
+
+    if (variantsJson) {
+      try {
+        const variantsList = JSON.parse(variantsJson);
+        for (const v of variantsList) {
+          if (v.id) {
+            await db
+              .update(productVariants)
+              .set({
+                title: v.title,
+                priceAmount: Number(v.price || 0),
+                compareAtPrice: v.compareAtPrice ? Number(v.compareAtPrice) : null,
+                inventoryQuantity: Number(v.inventoryQuantity ?? 15),
+                unit: v.unit || "packet",
+              })
+              .where(eq(productVariants.id, v.id));
+          } else {
+            await db.insert(productVariants).values({
+              id: crypto.randomUUID(),
+              productId: id,
+              title: v.title,
+              priceAmount: Number(v.price || 0),
+              compareAtPrice: v.compareAtPrice ? Number(v.compareAtPrice) : null,
+              inventoryQuantity: Number(v.inventoryQuantity ?? 15),
+              unit: v.unit || "packet",
+              availableForSale: true,
+            });
+          }
+        }
+      } catch {
+        // Ignored if json parse fails
+      }
+    }
+
+    if (collectionId !== null) {
+      await db.delete(productCollections).where(eq(productCollections.productId, id));
+      if (collectionId) {
+        await db.insert(productCollections).values({
+          productId: id,
+          collectionId,
+        });
+      }
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/");
+    return { success: true, error: "" };
+  } catch (err: any) {
+    return { success: false, error: err.message || "পণ্য আপডেট ব্যর্থ হয়েছে।" };
+  }
+}
+
 export async function toggleProductAvailabilityAction(id: string, available: boolean) {
   try {
     await requireAdmin();
@@ -156,6 +232,38 @@ export async function createCollectionAction(formData: FormData) {
     return { success: true, error: "" };
   } catch (err: any) {
     return { success: false, error: err.message || "ক্যাটাগরি তৈরি ব্যর্থ হয়েছে।" };
+  }
+}
+
+export async function updateCollectionAction(formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = formData.get("id") as string;
+    const title = (formData.get("title") as string)?.trim();
+    const handle = (formData.get("handle") as string)?.trim();
+    const description = (formData.get("description") as string)?.trim() || "";
+    const image = (formData.get("image") as string)?.trim() || "";
+
+    if (!id || !title || !handle) {
+      return { success: false, error: "আইডি, শিরোনাম এবং হ্যান্ডেল আবশ্যক।" };
+    }
+
+    await db
+      .update(collections)
+      .set({
+        title,
+        handle,
+        description,
+        image,
+        updatedAt: new Date(),
+      })
+      .where(eq(collections.id, id));
+
+    revalidatePath("/admin/collections");
+    revalidatePath("/");
+    return { success: true, error: "" };
+  } catch (err: any) {
+    return { success: false, error: err.message || "ক্যাটাগরি আপডেট ব্যর্থ হয়েছে।" };
   }
 }
 
@@ -221,6 +329,42 @@ export async function createBlogAction(formData: FormData) {
   }
 }
 
+export async function updateBlogAction(formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = formData.get("id") as string;
+    const title = (formData.get("title") as string)?.trim();
+    const slug = (formData.get("slug") as string)?.trim();
+    const description = (formData.get("description") as string)?.trim() || "";
+    const content = (formData.get("content") as string)?.trim() || "";
+    const category = (formData.get("category") as string)?.trim() || "স্বাস্থ্য ও পুষ্টি";
+    const coverImage = (formData.get("coverImage") as string)?.trim() || "";
+
+    if (!id || !title || !slug) {
+      return { success: false, error: "আইডি, শিরোনাম এবং স্লাগ আবশ্যক।" };
+    }
+
+    await db
+      .update(blogs)
+      .set({
+        title,
+        slug,
+        description,
+        content,
+        category,
+        coverImage,
+        updatedAt: new Date(),
+      })
+      .where(eq(blogs.id, id));
+
+    revalidatePath("/admin/blog");
+    revalidatePath("/blog");
+    return { success: true, error: "" };
+  } catch (err: any) {
+    return { success: false, error: err.message || "ব্লগ আপডেট ব্যর্থ হয়েছে।" };
+  }
+}
+
 export async function deleteBlogAction(id: string) {
   try {
     await requireAdmin();
@@ -262,6 +406,41 @@ export async function createHeroBannerAction(formData: FormData) {
     return { success: true, error: "" };
   } catch (err: any) {
     return { success: false, error: err.message || "ব্যানার তৈরি ব্যর্থ হয়েছে।" };
+  }
+}
+
+export async function updateHeroBannerAction(formData: FormData) {
+  try {
+    await requireAdmin();
+    const id = formData.get("id") as string;
+    const title = (formData.get("title") as string)?.trim();
+    const highlight = (formData.get("highlight") as string)?.trim() || "";
+    const subtitle = (formData.get("subtitle") as string)?.trim() || "";
+    const link = (formData.get("link") as string)?.trim() || "/search";
+    const image = (formData.get("image") as string)?.trim() || "";
+    const accentColor = (formData.get("accentColor") as string)?.trim() || "text-amber-400";
+
+    if (!id || !title) {
+      return { success: false, error: "ব্যানার আইডি ও শিরোনাম প্রয়োজন।" };
+    }
+
+    await db
+      .update(heroBanners)
+      .set({
+        title,
+        highlight,
+        subtitle,
+        link,
+        image: image || undefined,
+        accentColor,
+      })
+      .where(eq(heroBanners.id, id));
+
+    revalidatePath("/admin/banners");
+    revalidatePath("/");
+    return { success: true, error: "" };
+  } catch (err: any) {
+    return { success: false, error: err.message || "ব্যানার আপডেট ব্যর্থ হয়েছে।" };
   }
 }
 

@@ -98,20 +98,31 @@ export const shopApi = {
 
 export const cartApi = {
   getCart: async (): Promise<{ cart: Cart | null }> => {
-    const res = await api.get("/cart");
-    return res.data;
+    const res = await fetch("/api/cart", { cache: "no-store" });
+    if (!res.ok) return { cart: null };
+    return res.json();
   },
   addItem: async (variantId: string, quantity = 1): Promise<{ cart: Cart | null }> => {
-    const res = await api.post("/cart/items", { variantId, quantity });
-    return res.data;
+    const res = await fetch("/api/cart/items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ variantId, quantity }),
+    });
+    return res.json();
   },
   updateQuantity: async (variantId: string, type: "plus" | "minus" | "delete"): Promise<{ cart: Cart | null }> => {
-    const res = await api.patch(`/cart/items/${variantId}`, { type });
-    return res.data;
+    const res = await fetch(`/api/cart/items/${variantId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type }),
+    });
+    return res.json();
   },
   removeItem: async (variantId: string): Promise<{ cart: Cart | null }> => {
-    const res = await api.delete(`/cart/items/${variantId}`);
-    return res.data;
+    const res = await fetch(`/api/cart/items/${variantId}`, {
+      method: "DELETE",
+    });
+    return res.json();
   },
 };
 

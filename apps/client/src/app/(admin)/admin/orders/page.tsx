@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "@/lib/db/schema";
+import { asc, desc, eq } from "drizzle-orm";
 import { OrdersList } from "@/components/admin";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
