@@ -251,40 +251,6 @@ export function ProductDescription({ product }: { product: Product }) {
           </div>
         ) : null}
 
-        {/* ──── Section 5: Product Meta Specs ──── */}
-        <div className="grid grid-cols-2 gap-3 rounded-xl border border-border/40 bg-muted/15 p-3.5 sm:p-4 text-xs">
-          <div>
-            <span className="text-muted-foreground">ব্র্যান্ড: </span>
-            <span className="font-bold text-foreground">
-              {product.brand || "স্বাস্থ্যকর (SwasthyoKor)"}
-            </span>
-          </div>
-          <div>
-            <span className="text-muted-foreground">ক্যাটাগরি: </span>
-            {product.category ? (
-              <Link
-                href={`/search/${product.category.handle}`}
-                className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
-              >
-                {product.category.title}
-              </Link>
-            ) : (
-              <span className="font-bold text-foreground">অর্গানিক ফুড</span>
-            )}
-          </div>
-          <div>
-            <span className="text-muted-foreground">পণ্য ধরন: </span>
-            <span className="font-bold text-foreground">
-              {product.productType || "১০০% প্রাকৃতিক খাদ্য"}
-            </span>
-          </div>
-          <div>
-            <span className="text-muted-foreground">ডেলিভারি: </span>
-            <span className="font-bold text-foreground">
-              {product.deliveryInfo || "সারা দেশে দ্রুত হোম ডেলিভারি"}
-            </span>
-          </div>
-        </div>
 
         {/* ──── Section 6: Desktop CTAs ──── */}
         <div className="hidden lg:flex flex-col gap-2.5 pt-2">

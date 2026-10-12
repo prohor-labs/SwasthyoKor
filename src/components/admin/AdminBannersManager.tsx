@@ -124,86 +124,29 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
 
           <form onSubmit={handleCreateSubmit} className="flex flex-col gap-3 sm:gap-4">
             <FieldGroup className="gap-3 sm:gap-4">
-              <Field>
-                <FieldLabel htmlFor="create-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  ব্যানার টাইটেল (বড় লেখা) *
-                </FieldLabel>
-                <Input
-                  id="create-title"
-                  name="title"
-                  placeholder="যেমন: ১০০% খাঁটি সুন্দরবন মধু ও"
-                  required
-                  className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="create-highlight" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  হাইলাইট টেক্সট (রঙিন লেখা) *
-                </FieldLabel>
-                <Input
-                  id="create-highlight"
-                  name="highlight"
-                  placeholder="যেমন: গাওয়া ঘি"
-                  required
-                  className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="create-subtitle" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  সাবটাইটেল / সংক্ষিপ্ত বিবরণ *
-                </FieldLabel>
-                <Textarea
-                  id="create-subtitle"
-                  name="subtitle"
-                  rows={2}
-                  placeholder="প্রকৃতির নিখাদ দান, কোনো কৃত্রিম মিষ্টি ছাড়া সরাসরি সুন্দরবন থেকে..."
-                  required
-                  className="text-xs sm:text-sm rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Field>
-                  <FieldLabel htmlFor="create-link" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                    লিঙ্ক (টার্গেট URL) *
+                  <FieldLabel htmlFor="create-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                    ব্যানারের নাম / লেবেল (ঐচ্ছিক)
                   </FieldLabel>
                   <Input
-                    id="create-link"
-                    name="link"
-                    defaultValue="/search?q=মধু"
-                    required
-                    className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl font-mono"
+                    id="create-title"
+                    name="title"
+                    placeholder="যেমন: ঈদের অফার ব্যানার"
+                    className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
                   />
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="create-color" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                    হাইলাইট রঙ (Tailwind Color)
+                  <FieldLabel htmlFor="create-link" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                    ক্লিক করলে যে পেইজে যাবে (টার্গেট লিঙ্ক)
                   </FieldLabel>
-                  <Select
-                    value={createAccentColor}
-                    onValueChange={(val) => {
-                      if (val) setCreateAccentColor(val);
-                    }}
-                  >
-                    <SelectTrigger
-                      id="create-color"
-                      className="w-full h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="text-amber-400">হলুদ / আম্বার (Amber)</SelectItem>
-                        <SelectItem value="text-emerald-400">সবুজ (Emerald)</SelectItem>
-                        <SelectItem value="text-teal-400">টিয়াল (Teal)</SelectItem>
-                        <SelectItem value="text-amber-300">গোল্ডেন (Gold)</SelectItem>
-                        <SelectItem value="text-rose-400">গোলাপী / লাল (Rose)</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    id="create-link"
+                    name="link"
+                    defaultValue="/search"
+                    className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl font-mono"
+                  />
                 </Field>
               </div>
 
@@ -272,21 +215,11 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
             <div className="relative aspect-video w-full overflow-hidden bg-muted">
               <Image
                 src={banner.image}
-                alt={banner.title}
+                alt={banner.title || `ব্যানার #${index + 1}`}
                 fill
                 className="object-cover"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute bottom-3 left-3 right-3 text-white">
-                <div className="text-sm font-black">
-                  {banner.title}{" "}
-                  <span className={banner.accentColor}>{banner.highlight}</span>
-                </div>
-                <p className="text-[11px] text-neutral-200 line-clamp-1 mt-0.5">
-                  {banner.subtitle}
-                </p>
-              </div>
               <div className="absolute top-2 left-2 rounded-md bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-xs">
                 স্লাইড #{index + 1}
               </div>
@@ -348,86 +281,30 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
 
           <form onSubmit={handleEditSubmit} className="flex flex-col gap-3 sm:gap-4">
             <FieldGroup className="gap-3 sm:gap-4">
-              <Field>
-                <FieldLabel htmlFor="edit-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  ব্যানার টাইটেল *
-                </FieldLabel>
-                <Input
-                  id="edit-title"
-                  name="title"
-                  defaultValue={editingBanner.title}
-                  required
-                  className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="edit-highlight" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  হাইলাইট টেক্সট *
-                </FieldLabel>
-                <Input
-                  id="edit-highlight"
-                  name="highlight"
-                  defaultValue={editingBanner.highlight}
-                  required
-                  className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="edit-subtitle" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                  সাবটাইটেল *
-                </FieldLabel>
-                <Textarea
-                  id="edit-subtitle"
-                  name="subtitle"
-                  rows={2}
-                  defaultValue={editingBanner.subtitle}
-                  required
-                  className="text-xs sm:text-sm rounded-lg sm:rounded-xl"
-                />
-              </Field>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Field>
+                  <FieldLabel htmlFor="edit-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                    ব্যানারের নাম / লেবেল (ঐচ্ছিক)
+                  </FieldLabel>
+                  <Input
+                    id="edit-title"
+                    name="title"
+                    defaultValue={editingBanner.title}
+                    placeholder="যেমন: ঈদের অফার ব্যানার"
+                    className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl"
+                  />
+                </Field>
+
+                <Field>
                   <FieldLabel htmlFor="edit-link" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                    লিঙ্ক (টার্গেট URL) *
+                    ক্লিক করলে যে পেইজে যাবে (টার্গেট লিঙ্ক)
                   </FieldLabel>
                   <Input
                     id="edit-link"
                     name="link"
                     defaultValue={editingBanner.link}
-                    required
                     className="h-10 text-xs sm:text-sm px-3 rounded-lg sm:rounded-xl font-mono"
                   />
-                </Field>
-
-                <Field>
-                  <FieldLabel htmlFor="edit-color" className="text-xs sm:text-sm font-semibold text-foreground/90">
-                    হাইলাইট রঙ
-                  </FieldLabel>
-                  <Select
-                    value={editAccentColor}
-                    onValueChange={(val) => {
-                      if (val) setEditAccentColor(val);
-                    }}
-                  >
-                    <SelectTrigger
-                      id="edit-color"
-                      className="w-full h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm"
-                    >
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="text-amber-400">হলুদ / আম্বার (Amber)</SelectItem>
-                        <SelectItem value="text-emerald-400">সবুজ (Emerald)</SelectItem>
-                        <SelectItem value="text-teal-400">টিয়াল (Teal)</SelectItem>
-                        <SelectItem value="text-amber-300">গোল্ডেন (Gold)</SelectItem>
-                        <SelectItem value="text-rose-400">গোলাপী / লাল (Rose)</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
                 </Field>
               </div>
 

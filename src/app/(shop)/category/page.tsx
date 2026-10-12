@@ -9,10 +9,25 @@ export const metadata = {
 };
 
 const CATEGORY_META: Record<string, { image: string; icon: string }> = {
+  honey: {
+    image:
+      "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&auto=format&fit=crop&q=80",
+    icon: "🍯",
+  },
   "organic-essentials": {
     image:
       "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&auto=format&fit=crop&q=80",
     icon: "🍯",
+  },
+  dates: {
+    image:
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&auto=format&fit=crop&q=80",
+    icon: "🌴",
+  },
+  masala: {
+    image:
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&auto=format&fit=crop&q=80",
+    icon: "🌶️",
   },
   "oils-and-ghee": {
     image:

@@ -381,14 +381,14 @@ export async function deleteBlogAction(id: string) {
 export async function createHeroBannerAction(formData: FormData) {
   try {
     await requireAdmin();
-    const title = (formData.get("title") as string)?.trim();
+    const title = (formData.get("title") as string)?.trim() || "";
     const highlight = (formData.get("highlight") as string)?.trim() || "";
     const subtitle = (formData.get("subtitle") as string)?.trim() || "";
     const link = (formData.get("link") as string)?.trim() || "/search";
     const image = (formData.get("image") as string)?.trim() || "";
 
-    if (!title || !image) {
-      return { success: false, error: "ব্যানারের শিরোনাম এবং ছবি আবশ্যক।" };
+    if (!image) {
+      return { success: false, error: "ব্যানারের ছবি আবশ্যক।" };
     }
 
     await db.insert(heroBanners).values({
@@ -413,15 +413,15 @@ export async function updateHeroBannerAction(formData: FormData) {
   try {
     await requireAdmin();
     const id = formData.get("id") as string;
-    const title = (formData.get("title") as string)?.trim();
+    const title = (formData.get("title") as string)?.trim() || "";
     const highlight = (formData.get("highlight") as string)?.trim() || "";
     const subtitle = (formData.get("subtitle") as string)?.trim() || "";
     const link = (formData.get("link") as string)?.trim() || "/search";
     const image = (formData.get("image") as string)?.trim() || "";
     const accentColor = (formData.get("accentColor") as string)?.trim() || "text-amber-400";
 
-    if (!id || !title) {
-      return { success: false, error: "ব্যানার আইডি ও শিরোনাম প্রয়োজন।" };
+    if (!id) {
+      return { success: false, error: "ব্যানার আইডি প্রয়োজন।" };
     }
 
     await db

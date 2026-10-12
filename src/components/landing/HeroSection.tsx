@@ -8,50 +8,30 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface BannerSlide {
-  title: string;
-  highlight: string;
-  subtitle: string;
+  id?: string;
+  title?: string;
   link: string;
-  accentColor: string;
   image: string;
 }
 
 const HERO_SLIDES: BannerSlide[] = [
   {
-    title: "১০০% খাঁটি সুন্দরবন মধু ও",
-    highlight: "গাওয়া ঘি",
-    subtitle:
-      "প্রকৃতির নিখাদ দান, কোনো কৃত্রিম মিষ্টি বা প্রিজারভেটিভ ছাড়া সরাসরি সুন্দরবন ও খামার থেকে সংগৃহীত।",
     link: "/search?q=মধু",
-    accentColor: "text-amber-400",
     image:
       "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=1600&auto=format&fit=crop&q=85",
   },
   {
-    title: "ঘানি ভাঙা সরিষার তেল ও",
-    highlight: "কালোজিরা তেল",
-    subtitle:
-      "কাঠের ঘানিতে ভাঙা প্রাকৃতিক ঝাঁঝ ও খাঁটি পুষ্টিতে ভরপুর স্বাস্থ্যকর রান্নার শ্রেষ্ঠ উপাদান।",
     link: "/search?q=তেল",
-    accentColor: "text-emerald-400",
     image:
       "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1600&auto=format&fit=crop&q=85",
   },
   {
-    title: "প্রিমিয়াম অর্গানিক চিয়া সিড ও",
-    highlight: "সুপারফুড সংগ্রহ",
-    subtitle: "প্রতিদিনের সুস্থতা ও রোগ প্রতিরোধ ক্ষমতা বৃদ্ধিতে খাঁটি সুপারফুডের সমাহার।",
     link: "/search/superfoods-wellness",
-    accentColor: "text-teal-400",
     image:
       "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=1600&auto=format&fit=crop&q=85",
   },
   {
-    title: "সেরা বাছাইকৃত ড্রাই ফ্রুটস ও",
-    highlight: "পুষ্টিকর বাদাম",
-    subtitle: "আমন্ড, কাজু, পেস্তা, আখরোট ও প্রিমিয়াম কিশমিশের সেরা স্বাস্থ্যকর স্ন্যাক্স।",
     link: "/search?q=বাদাম",
-    accentColor: "text-amber-300",
     image:
       "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=1600&auto=format&fit=crop&q=85",
   },
@@ -124,7 +104,7 @@ export function HeroSection({
         >
           {slides.map((slide, idx) => (
             <Link
-              key={`${slide.title}-${idx}`}
+              key={slide.id || `${slide.image}-${idx}`}
               href={slide.link}
               className={cn(
                 "absolute inset-0 block transition-opacity duration-700 ease-in-out cursor-pointer",
@@ -136,27 +116,13 @@ export function HeroSection({
               {/* Background Image */}
               <Image
                 src={slide.image}
-                alt={slide.title}
+                alt={slide.title || `ব্যানার #${idx + 1}`}
                 fill
                 priority={idx === 0}
                 sizes="(min-width: 1280px) 1200px, 100vw"
                 className="object-cover object-center select-none"
               />
 
-              {/* Bottom Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-
-              {/* Slide Content positioned at bottom */}
-              <div className="relative z-20 flex h-full flex-col justify-end px-3.5 pb-4 sm:px-8 sm:pb-7 md:px-12 md:pb-9 lg:px-14 lg:pb-10 max-w-3xl text-white">
-                <h1 className="text-sm sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-snug sm:leading-tight">
-                  {slide.title}{" "}
-                  <span className={slide.accentColor}>{slide.highlight}</span>
-                </h1>
-
-                <p className="mt-0.5 sm:mt-1.5 text-[10px] sm:text-xs md:text-sm lg:text-base text-neutral-200 leading-relaxed max-w-lg line-clamp-1 sm:line-clamp-2">
-                  {slide.subtitle}
-                </p>
-              </div>
             </Link>
           ))}
 

@@ -466,9 +466,9 @@ export const heroBanners = pgTable(
     id: varchar("id", { length: 255 })
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    title: varchar("title", { length: 255 }).notNull(),
-    highlight: varchar("highlight", { length: 255 }).notNull(),
-    subtitle: text("subtitle").notNull(),
+    title: varchar("title", { length: 255 }).notNull().default(""),
+    highlight: varchar("highlight", { length: 255 }).notNull().default(""),
+    subtitle: text("subtitle").notNull().default(""),
     link: text("link").notNull().default("/search"),
     accentColor: varchar("accent_color", { length: 50 })
       .notNull()
