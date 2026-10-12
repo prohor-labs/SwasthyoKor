@@ -1,6 +1,6 @@
-// drizzle-orm removed
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 import { Box, Calendar, Package, Receipt } from "@/components/icons";
 import { ListCard } from "@/components/shared";
 import { Button } from "@/components/ui/button";
