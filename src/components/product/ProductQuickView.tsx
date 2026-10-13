@@ -178,10 +178,6 @@ export function ProductQuickView({
                 : "স্টক শেষ"}
             </Button>
 
-            <p className="text-[11px] text-center text-muted-foreground pt-0.5">
-              🔒 ১০০% নিরাপদ অনলাইন পেমেন্ট (বিকাশ/নগদ/কার্ড) • ১০০% খাঁটি পণ্য
-            </p>
-
             <Button
               render={
                 <Link href={`/product/${product.handle}`}>
