@@ -1,9 +1,7 @@
 "use client";
 
-import { Coins, Gift, Sparkles } from "lucide-react";
-import { useRef } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import { Coins, Gift } from "@/components/icons";
 import {
   Card,
   CardContent,
@@ -14,16 +12,31 @@ import {
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import { LOYALTY_CONFIG } from "@/config/loyalty";
 
-export function LoyaltyPointsCard() {
+interface LoyaltyPointsCardProps {
+  balance?: number;
+  earnedPoints?: number;
+}
+
+export function LoyaltyPointsCard({
+  balance = LOYALTY_CONFIG.signupRewardPoints,
+  earnedPoints = 0,
+}: LoyaltyPointsCardProps) {
   const confettiRef = useRef<ConfettiRef>(null);
 
-  const handleCelebrate = () => {
-    confettiRef.current?.fire({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  };
+  useEffect(() => {
+    // Automatically trigger joyful confetti celebration on mount and when points are earned
+    const timer = setTimeout(() => {
+      confettiRef.current?.fire({
+        particleCount: 70,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const totalPoints = balance + earnedPoints;
 
   return (
     <Card className="relative overflow-hidden rounded-2xl border-emerald-500/30 bg-gradient-to-br from-emerald-50/50 via-background to-amber-50/30 dark:from-emerald-950/20 dark:via-background dark:to-amber-950/10 shadow-xs">
@@ -48,9 +61,6 @@ export function LoyaltyPointsCard() {
               </CardDescription>
             </div>
           </div>
-          <Badge className="bg-emerald-600/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20 font-bold px-2.5 py-0.5">
-            সক্রিয় অফার
-          </Badge>
         </div>
       </CardHeader>
 
@@ -63,27 +73,17 @@ export function LoyaltyPointsCard() {
             </span>
             <div className="flex items-baseline gap-1.5 mt-0.5">
               <span className="text-2xl sm:text-3xl font-extrabold text-foreground">
-                {LOYALTY_CONFIG.signupRewardPoints}
+                {totalPoints}
               </span>
               <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 পয়েন্ট (৳
-                {LOYALTY_CONFIG.signupRewardPoints *
-                  LOYALTY_CONFIG.pointToBdtRate}{" "}
+                {(totalPoints * LOYALTY_CONFIG.pointToBdtRate).toLocaleString(
+                  "bn-BD",
+                )}{" "}
                 সমমূল্য)
               </span>
             </div>
           </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleCelebrate}
-            className="rounded-xl border-emerald-500/30 hover:bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 gap-1.5 cursor-pointer text-xs font-semibold"
-          >
-            <Sparkles className="size-3.5" />
-            বোনাস উদযাপন
-          </Button>
         </div>
 
         {/* Benefits Info */}

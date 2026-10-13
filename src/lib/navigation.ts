@@ -1,4 +1,5 @@
 import {
+  Award,
   BookOpen,
   Box,
   Category,
@@ -15,6 +16,12 @@ import type { Dictionary, NavItem, SidebarAnnouncement } from "@/types";
 export const DEFAULT_NAV_ITEMS: readonly NavItem[] = [
   { name: "ড্যাশবোর্ড", path: "/dashboard", exact: true, icon: Home },
   { name: "অর্ডারসমূহ", path: "/dashboard/orders", exact: false, icon: Box },
+  {
+    name: "রিওয়ার্ড ও পয়েন্ট",
+    path: "/dashboard/rewards",
+    exact: false,
+    icon: Award,
+  },
   {
     name: "প্রোফাইল ও সেটিংস",
     path: "/dashboard/profile",
