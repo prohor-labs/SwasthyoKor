@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { ProfileForm } from "@/components/dashboard";
+import { ProfileForm, LoyaltyPointsCard } from "@/components/dashboard";
 import { ThemeToggler } from "@/components/theme-toggler";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -45,6 +45,9 @@ export default async function UserProfilePage() {
           isAdmin: user.isAdmin,
         }}
       />
+
+      {/* Loyalty & Rewards Card */}
+      <LoyaltyPointsCard />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Theme Settings */}
