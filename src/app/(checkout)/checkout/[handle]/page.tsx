@@ -65,13 +65,13 @@ export default async function CheckoutProductPage(props: {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8">
           {/* Left Column: Delivery Form */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-6">
-            <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs py-0 gap-0">
-              <CardHeader className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-border/50">
+            <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs py-0 gap-0 [--card-spacing:0px]">
+              <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-5 pb-3 sm:pb-4">
                 <CardTitle className="text-base sm:text-lg font-bold text-foreground">
                   ডেলিভারির ঠিকানা ও তথ্য
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3.5 sm:p-6 pt-3 sm:pt-4">
+              <CardContent className="px-4 pb-4 sm:px-6 sm:pb-6 pt-1 sm:pt-2">
                 <DirectCheckoutForm
                   handle={product.handle}
                   quantity={quantity}
@@ -86,13 +86,13 @@ export default async function CheckoutProductPage(props: {
 
           {/* Right Column: Order Summary */}
           <div className="lg:col-span-5 space-y-4 sm:space-y-6">
-            <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs sticky top-8 py-0 gap-0">
-              <CardHeader className="p-4 sm:p-6 pb-3 sm:pb-4 border-b border-border/50">
+            <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs sticky top-8 py-0 gap-0 [--card-spacing:0px]">
+              <CardHeader className="px-4 pt-4 sm:px-6 sm:pt-5 pb-3 sm:pb-4">
                 <CardTitle className="text-sm sm:text-base font-bold text-foreground">
                   অর্ডার সারাংশ
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3.5 sm:p-6 pt-3 sm:pt-4 space-y-3.5 sm:space-y-4">
+              <CardContent className="px-4 pb-4 sm:px-6 sm:pb-6 pt-1 sm:pt-2 space-y-3 sm:space-y-4">
                 {/* Product row */}
                 <div className="flex items-center gap-3">
                   <div className="relative size-16 shrink-0 overflow-hidden rounded-xl border border-border/80 bg-neutral-100 dark:bg-neutral-900">

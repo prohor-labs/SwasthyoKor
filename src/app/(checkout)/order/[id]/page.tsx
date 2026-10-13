@@ -54,7 +54,7 @@ export default async function OrderSuccessPage({
           </Link>
         </div>
 
-        <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs overflow-hidden py-0 gap-0">
+        <Card className="border-border/80 bg-card rounded-xl sm:rounded-2xl shadow-xs overflow-hidden py-0 gap-0 [--card-spacing:0px]">
           <CardHeader className="text-center p-4 sm:p-6 pb-2 sm:pb-3">
             <div className="mx-auto mb-3 flex size-14 sm:size-16 items-center justify-center rounded-xl sm:rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
               <CheckCircle className="size-8 sm:size-9" />

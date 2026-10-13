@@ -360,7 +360,7 @@ export function AdminBlogManager({
           filteredPosts.map((post) => (
             <Card
               key={post.slug}
-              className="p-0 py-0 overflow-hidden border-border/80 hover:border-emerald-500/40 transition"
+              className="p-0 py-0 overflow-hidden border-border/80 hover:border-emerald-500/40 transition [--card-spacing:0px]"
             >
               <CardContent className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4 min-w-0 flex-1">

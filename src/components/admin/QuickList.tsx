@@ -60,7 +60,7 @@ export function QuickList({ items, className, emptyMessage }: QuickListProps) {
             key={itemKey}
             onClick={item.onClick}
             className={cn(
-              "py-0 gap-0 border shadow-2xs transition-all duration-200 rounded-2xl",
+              "py-0 gap-0 border shadow-2xs transition-all duration-200 rounded-2xl [--card-spacing:0px]",
               isSuccess &&
                 "border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/10 hover:border-emerald-500/50",
               isDestructive &&

@@ -59,7 +59,7 @@ export function ListCard({
     <Card
       onClick={onClick}
       className={cn(
-        "py-0 gap-0 border-border/80 shadow-xs hover:border-primary/40 transition-colors bg-card",
+        "py-0 gap-0 border-border/80 shadow-xs hover:border-primary/40 transition-colors bg-card [--card-spacing:0px]",
         onClick && "cursor-pointer",
         className,
       )}

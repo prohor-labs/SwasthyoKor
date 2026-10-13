@@ -80,7 +80,7 @@ export default async function FAQPage() {
           {GENERAL_FAQS.map((categoryGroup) => (
             <Card
               key={categoryGroup.category}
-              className="overflow-hidden py-0 p-0"
+              className="overflow-hidden py-0 p-0 [--card-spacing:0px]"
             >
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-2 mb-2">

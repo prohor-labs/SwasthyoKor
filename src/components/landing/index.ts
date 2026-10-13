@@ -7,5 +7,4 @@ export * from "./FeatureBar";
 export * from "./FlashDealsSection";
 export * from "./HeroSection";
 export * from "./QuoteSection";
-export * from "./ResellerBanner";
 export * from "./TrustFeaturesBar";
