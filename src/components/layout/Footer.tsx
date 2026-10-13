@@ -4,13 +4,14 @@ import { CopyrightDate } from "@/components/copyright-date";
 import { FooterMenu } from "@/components/layout/FooterMenu";
 import LogoSquare from "@/components/logo-square";
 import { getMenu } from "@/lib/db/queries";
+import { siteConfig } from "@/config";
 
 export async function Footer() {
   const skeleton =
     "w-full h-6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-700";
   const menu = await getMenu("footer");
-  const siteName = process.env.SITE_NAME || "স্বাস্থ্যকর";
-  const copyrightName = process.env.COMPANY_NAME || siteName;
+  const siteName = siteConfig.name;
+  const copyrightName = siteConfig.companyName || siteName;
 
   return (
     <footer className="border-t border-neutral-200 bg-background text-sm text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">

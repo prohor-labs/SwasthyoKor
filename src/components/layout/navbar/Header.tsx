@@ -5,6 +5,7 @@ import LogoSquare from "@/components/logo-square";
 import { ThemeToggler } from "@/components/theme-toggler";
 import { getMenu } from "@/lib/db/queries";
 import type { Menu } from "@/lib/types";
+import { siteConfig } from "@/config";
 import { HeaderAuth } from "./HeaderAuth";
 import MobileMenu from "./MobileMenu";
 import { MobileSearch } from "./MobileSearch";
@@ -12,7 +13,7 @@ import Search, { SearchSkeleton } from "./Search";
 
 export async function Header() {
   const menu = await getMenu("header");
-  const siteName = process.env.SITE_NAME || "স্বাস্থ্যকর";
+  const siteName = siteConfig.name;
 
   return (
     <nav className="sticky top-0 z-40 flex items-center justify-between border-b border-border/60 bg-background/85 px-3 py-2 sm:px-4 sm:py-3 backdrop-blur-md lg:px-6">
