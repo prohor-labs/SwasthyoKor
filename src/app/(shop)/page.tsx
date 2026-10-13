@@ -6,7 +6,6 @@ import {
   CollectionTabsSection,
   FlashDealsSection,
   HeroSection,
-  TrustFeaturesBar,
 } from "@/components/landing";
 
 import { Skeleton } from "@/components/ui/skeleton";
@@ -125,9 +124,6 @@ export default async function HomePage() {
 
         {/* 6. Continuous Auto-scrolling Product Carousel */}
         <CollectionTabsSection />
-
-        {/* 7. Trust & Guarantee Feature Bar */}
-        <TrustFeaturesBar />
       </div>
     </>
   );

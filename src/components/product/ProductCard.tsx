@@ -66,10 +66,17 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
           <Link
             href={`/product/${product.handle}`}
-            className="line-clamp-2 text-xs sm:text-sm font-bold text-foreground hover:text-emerald-600 transition-colors leading-snug"
+            className="line-clamp-1 sm:line-clamp-2 text-xs sm:text-sm font-bold text-foreground hover:text-emerald-600 transition-colors leading-snug"
           >
             {product.title}
           </Link>
+
+          {/* Short Truncated Description */}
+          {product.description && (
+            <p className="line-clamp-1 text-[11px] sm:text-xs text-muted-foreground font-normal leading-relaxed">
+              {product.description}
+            </p>
+          )}
 
           {/* Price Row */}
           <div className="mt-auto pt-1.5 flex items-baseline gap-1.5 sm:gap-2 flex-wrap">

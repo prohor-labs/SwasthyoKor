@@ -7,9 +7,10 @@ import { WhatsAppIcon } from "@/components/icons";
 export function FloatingWhatsApp() {
   const pathname = usePathname();
 
-  // Hide in admin panel
-  const isAdmin = pathname?.startsWith("/admin");
-  if (isAdmin) return null;
+  // Hide in admin panel and customer dashboards
+  const isDashboardOrAdmin =
+    pathname?.startsWith("/admin") || pathname?.startsWith("/dashboard");
+  if (isDashboardOrAdmin) return null;
 
   const phone = "8801982027508";
   const defaultMsg = encodeURIComponent(

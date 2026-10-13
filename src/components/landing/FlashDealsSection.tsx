@@ -34,7 +34,7 @@ export async function FlashDealsSection() {
         </Button>
       </div>
 
-      {/* Clean Grid */}
+      {/* Clean Grid (4 items per row on desktop) */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
         {dealProducts.map((product) => (
           <ProductCard key={product.handle} product={product} />

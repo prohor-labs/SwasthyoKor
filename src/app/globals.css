@@ -154,3 +154,8 @@
     @apply py-6 sm:py-8 md:py-10 flex flex-col gap-6 sm:gap-8;
   }
 }
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

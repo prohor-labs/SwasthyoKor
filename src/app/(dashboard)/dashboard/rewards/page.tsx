@@ -43,7 +43,7 @@ export default async function RewardsPage() {
   const currentTotalPoints = initialPoints + purchasePointsEarned;
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full max-w-4xl mx-auto">
       {/* Main Loyalty Points Wallet Card with auto-confetti */}
       <LoyaltyPointsCard
         balance={initialPoints}

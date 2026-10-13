@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { Heart } from "reicon-react";
 import { CopyrightDate } from "@/components/copyright-date";
 import { FooterMenu } from "@/components/layout/FooterMenu";
 import LogoSquare from "@/components/logo-square";
@@ -69,8 +70,16 @@ export async function Footer() {
           <p>
             &copy; <CopyrightDate /> {copyrightName}. সর্বস্বত্ব সংরক্ষিত।
           </p>
-          <p className="text-xs text-neutral-500">
-            Powered by Next.js 16 & PostgreSQL
+          <p className="flex items-center text-xs text-neutral-500">
+            Made with{" "}
+            <Heart className="inline size-3.5 text-rose-500 fill-rose-500 mx-1" />{" "}
+            by{" "}
+            <a
+              href="mailto:frostfoe@gmail.com"
+              className="ml-1 font-mono font-medium text-foreground hover:text-emerald-600 transition-colors"
+            >
+              &lt;/ FrostFoe&gt;
+            </a>
           </p>
         </div>
       </div>

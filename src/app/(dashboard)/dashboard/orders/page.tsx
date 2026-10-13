@@ -1,8 +1,9 @@
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Box, Calendar, Package, Receipt } from "@/components/icons";
-import { ListCard } from "@/components/shared";
+import { Calendar, Package, Receipt } from "@/components/icons";
+import { QuickList, type QuickListItem } from "@/components/shared";
+import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyDescription,
@@ -12,7 +13,6 @@ import {
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { orders } from "@/lib/db/schema";
-import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "আমার অর্ডারসমূহ | স্বাস্থ্যকর",
@@ -23,30 +23,27 @@ const STATUS_MAP: Record<
   string,
   {
     label: string;
-    badge: string;
-    variant: "default" | "secondary" | "outline" | "destructive";
+    variant: "success" | "warning" | "destructive" | "default" | "secondary";
   }
 > = {
   confirmed: {
     label: "কনফার্মড",
-    badge: "bg-blue-500/10 text-blue-600 border-blue-500/20 dark:text-blue-400",
-    variant: "outline",
+    variant: "default",
+  },
+  pending: {
+    label: "অপেক্ষমান",
+    variant: "warning",
   },
   shipped: {
     label: "ডেলিভারিতে",
-    badge:
-      "bg-amber-500/10 text-amber-600 border-amber-500/20 dark:text-amber-400",
-    variant: "outline",
+    variant: "warning",
   },
   delivered: {
     label: "ডেলিভার্ড",
-    badge:
-      "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 dark:text-emerald-400",
-    variant: "outline",
+    variant: "success",
   },
   cancelled: {
     label: "বাতিল",
-    badge: "bg-red-500/10 text-red-600 border-red-500/20 dark:text-red-400",
     variant: "destructive",
   },
 };
@@ -60,9 +57,67 @@ export default async function UserOrdersPage() {
     orderBy: (o, { desc: d }) => [d(o.createdAt)],
   });
 
+  const quickListItems: QuickListItem[] = userOrders.map((ord) => {
+    const itemCount = ord.items.reduce((s, i) => s + i.quantity, 0);
+    const firstTitle = ord.items[0]?.productTitle ?? "পণ্য";
+    const moreCount = ord.items.length - 1;
+    const status = STATUS_MAP[ord.status] ?? {
+      label: ord.status,
+      variant: "secondary" as const,
+    };
+
+    return {
+      id: ord.id,
+      title: `অর্ডার #${ord.id.slice(0, 8).toUpperCase()}`,
+      subtitle:
+        moreCount > 0 ? `${firstTitle} সহ আরও ${moreCount}টি পণ্য` : firstTitle,
+      icon: (
+        <Receipt className="size-5 text-emerald-600 dark:text-emerald-400" />
+      ),
+      badgeText: status.label,
+      badgeVariant: status.variant,
+      tags: [
+        {
+          icon: <Calendar className="size-3 text-muted-foreground" />,
+          text: new Date(ord.createdAt).toLocaleDateString("bn-BD", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        },
+        {
+          icon: <Package className="size-3 text-muted-foreground" />,
+          text: `${itemCount}টি আইটেম`,
+        },
+        {
+          text: `মোট ৳${ord.totalAmount.toFixed(2)}`,
+          variant: "primary",
+        },
+      ],
+      actions: (
+        <Link
+          href={`/order/${ord.id}`}
+          className="inline-flex items-center justify-center h-8 rounded-xl px-3 text-xs font-semibold border border-border bg-background shadow-xs hover:border-emerald-500/50 hover:bg-emerald-500/5 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
+        >
+          বিস্তারিত দেখুন
+        </Link>
+      ),
+    };
+  });
+
   return (
-    <div className="flex flex-col gap-6 max-w-3xl">
-      {/* Order list */}
+    <div className="flex flex-col gap-5 sm:gap-6 w-full max-w-4xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4">
+        <div>
+          <h1 className="text-lg sm:text-2xl font-bold tracking-tight text-foreground">
+            আমার অর্ডারসমূহ
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">
+            আপনার সকল অর্ডার ট্র্যাকিং এবং ডেলিভারি স্ট্যাটাস দেখুন।
+          </p>
+        </div>
+      </div>
+
       {userOrders.length === 0 ? (
         <Empty>
           <EmptyHeader>
@@ -73,69 +128,7 @@ export default async function UserOrdersPage() {
           </EmptyHeader>
         </Empty>
       ) : (
-        <div className="flex flex-col gap-3">
-          {userOrders.map((ord) => {
-            const itemCount = ord.items.reduce((s, i) => s + i.quantity, 0);
-            const firstTitle = ord.items[0]?.productTitle ?? "পণ্য";
-            const moreCount = ord.items.length - 1;
-            const status = STATUS_MAP[ord.status] ?? {
-              label: ord.status,
-              badge: "",
-              variant: "outline" as const,
-            };
-
-            return (
-              <ListCard
-                key={ord.id}
-                icon={
-                  <div className="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <Receipt className="size-5 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                }
-                title={`অর্ডার #${ord.id.slice(0, 8).toUpperCase()}`}
-                badges={[
-                  {
-                    label: status.label,
-                    variant: status.variant,
-                    className: cn("border font-semibold", status.badge),
-                  },
-                ]}
-                subtitle={
-                  moreCount > 0
-                    ? `${firstTitle} সহ আরও ${moreCount}টি পণ্য`
-                    : firstTitle
-                }
-                metaItems={[
-                  {
-                    icon: <Calendar className="size-3.5" />,
-                    label: "তারিখ:",
-                    value: new Date(ord.createdAt).toLocaleDateString("bn-BD", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }),
-                  },
-                  {
-                    icon: <Package className="size-3.5" />,
-                    label: "আইটেম:",
-                    value: `${itemCount}টি`,
-                  },
-                  {
-                    label: "মোট:",
-                    value: `৳${ord.totalAmount.toFixed(2)}`,
-                  },
-                ]}
-                actions={[
-                  {
-                    label: "বিস্তারিত দেখুন",
-                    href: `/order/${ord.id}`,
-                    variant: "default",
-                  },
-                ]}
-              />
-            );
-          })}
-        </div>
+        <QuickList items={quickListItems} />
       )}
     </div>
   );

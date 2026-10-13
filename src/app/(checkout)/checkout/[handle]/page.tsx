@@ -78,6 +78,9 @@ export default async function CheckoutProductPage(props: {
                   finalTotal={finalTotal}
                   initialName={user?.name || ""}
                   initialPhone={user?.phone || ""}
+                  initialPhoneVerified={Boolean(
+                    user?.phoneVerified && user?.phone,
+                  )}
                   allowCoupons={product.allowCoupons ?? true}
                 />
               </CardContent>

@@ -23,7 +23,7 @@ export default async function UserProfilePage() {
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-4xl">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full max-w-4xl mx-auto">
       <ProfileForm
         initialUser={{
           id: user.id,

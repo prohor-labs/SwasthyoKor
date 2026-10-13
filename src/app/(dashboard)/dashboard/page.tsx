@@ -55,7 +55,7 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="flex flex-col gap-5 sm:gap-6 max-w-6xl">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full max-w-5xl mx-auto">
       {/* ─── Stats Grid ─── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {

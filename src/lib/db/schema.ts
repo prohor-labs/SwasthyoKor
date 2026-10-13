@@ -332,6 +332,7 @@ export const users = pgTable("users", {
   emailVerified: boolean("email_verified").notNull().default(false),
   avatarUrl: text("avatar_url"),
   phone: varchar("phone", { length: 50 }),
+  phoneVerified: boolean("phone_verified").notNull().default(false),
   isBanned: boolean("is_banned").notNull().default(false),
   isAdmin: boolean("is_admin").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
@@ -389,6 +390,23 @@ export const sessions = pgTable(
     index("sessions_user_idx").on(table.userId),
     index("sessions_token_idx").on(table.token),
   ],
+);
+
+export const phoneVerificationTokens = pgTable(
+  "phone_verification_tokens",
+  {
+    id: varchar("id", { length: 255 })
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    phone: varchar("phone", { length: 50 }).notNull(),
+    otp: varchar("otp", { length: 10 }).notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    attempts: integer("attempts").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [index("phone_verification_tokens_phone_idx").on(table.phone)],
 );
 
 export const magicLinkTokens = pgTable(

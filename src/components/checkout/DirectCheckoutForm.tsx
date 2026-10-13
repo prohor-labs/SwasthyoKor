@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BagShopping, CheckCircle, CloseCircle, Tag } from "@/components/icons";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { checkoutDirectProduct } from "@/lib/actions/checkout";
+import { sendPhoneOtpAction, verifyPhoneOtpAction } from "@/lib/actions/otp";
 
 interface DirectCheckoutFormProps {
   handle: string;
@@ -14,6 +21,7 @@ interface DirectCheckoutFormProps {
   finalTotal: number;
   initialName?: string;
   initialPhone?: string;
+  initialPhoneVerified?: boolean;
   allowCoupons?: boolean;
 }
 
@@ -23,8 +31,10 @@ export function DirectCheckoutForm({
   finalTotal,
   initialName = "",
   initialPhone = "",
+  initialPhoneVerified = false,
   allowCoupons = true,
 }: DirectCheckoutFormProps) {
+  // Coupon States
   const [isCouponOpen, setIsCouponOpen] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{
@@ -36,7 +46,99 @@ export function DirectCheckoutForm({
   const [couponError, setCouponError] = useState("");
   const [isApplying, setIsApplying] = useState(false);
 
+  // Phone Verification & OTP States
+  const [phone, setPhone] = useState(initialPhone);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(initialPhoneVerified);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpMessage, setOtpMessage] = useState<string | null>(null);
+  const [otpError, setOtpError] = useState<string | null>(null);
+  const [mockHint, setMockHint] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState(0);
+
+  // Resend Timer Countdown
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
+
   const payableAmount = appliedCoupon ? appliedCoupon.finalAmount : finalTotal;
+
+  // Handle phone changes: if number is changed from verified one, reset verification
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setPhone(val);
+    if (isPhoneVerified && val !== initialPhone) {
+      setIsPhoneVerified(false);
+      setOtpSent(false);
+      setOtpCode("");
+      setOtpMessage(null);
+      setMockHint(null);
+    }
+  };
+
+  // Send OTP handler
+  const handleSendOtp = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (!phone || phone.trim().length < 11) {
+      setOtpError("সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)");
+      return;
+    }
+
+    setIsSendingOtp(true);
+    setOtpError(null);
+    setOtpMessage(null);
+
+    try {
+      const res = await sendPhoneOtpAction(phone);
+      if (res.success) {
+        setOtpSent(true);
+        setOtpMessage(res.message || "ওটিপি পাঠানো হয়েছে।");
+        if (res.mockOtp) {
+          setMockHint(`[মক ওটিপি কোড: ${res.mockOtp}]`);
+        }
+        setCountdown(45);
+      } else {
+        setOtpError(res.error || "ওটিপি পাঠাতে সমস্যা হয়েছে।");
+      }
+    } catch {
+      setOtpError("ওটিপি রিকোয়েস্ট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
+
+  // Verify OTP handler
+  const handleVerifyOtp = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (otpCode.length < 4) {
+      setOtpError("ওটিপি কোডটি লিখুন");
+      return;
+    }
+
+    setIsVerifyingOtp(true);
+    setOtpError(null);
+
+    try {
+      const res = await verifyPhoneOtpAction(phone, otpCode);
+      if (res.success) {
+        setIsPhoneVerified(true);
+        setOtpSent(false);
+        setOtpMessage("মোবাইল নম্বর সফলভাবে যাচাই করা হয়েছে!");
+        setMockHint(null);
+      } else {
+        setOtpError(res.error || "ভুল ওটিপি কোড।");
+      }
+    } catch {
+      setOtpError("যাচাইকরণ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
 
   const handleApplyCoupon = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -94,24 +196,153 @@ export function DirectCheckoutForm({
         value={appliedCoupon ? appliedCoupon.code : ""}
       />
 
+      {/* Customer Name */}
       <div className="space-y-1">
         <Label
-          htmlFor="phone"
+          htmlFor="name"
           className="text-xs sm:text-sm font-semibold text-foreground/90"
         >
-          মোবাইল নম্বর
+          আপনার নাম
         </Label>
         <Input
-          id="phone"
-          name="phone"
-          type="tel"
+          id="name"
+          name="name"
           required
-          defaultValue={initialPhone}
-          placeholder="যেমন: 017XXXXXXXX"
+          defaultValue={initialName}
+          placeholder="আপনার পূর্ণ নাম"
           className="rounded-lg sm:rounded-xl h-10 text-sm px-3 bg-background"
         />
       </div>
 
+      {/* Phone Number with OTP Verification */}
+      <div className="space-y-1.5">
+        <div className="flex items-center justify-between">
+          <Label
+            htmlFor="phone"
+            className="text-xs sm:text-sm font-semibold text-foreground/90 flex items-center gap-1.5"
+          >
+            <span>মোবাইল নম্বর</span>
+            {isPhoneVerified && (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                <CheckCircle className="size-3" /> যাচাইকৃত
+              </span>
+            )}
+          </Label>
+          {!isPhoneVerified && !otpSent && (
+            <button
+              type="button"
+              onClick={handleSendOtp}
+              disabled={isSendingOtp || !phone || phone.length < 11}
+              className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer disabled:opacity-50"
+            >
+              {isSendingOtp ? "ওটিপি পাঠানো হচ্ছে..." : "ওটিপি পাঠান"}
+            </button>
+          )}
+        </div>
+
+        <div className="relative">
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            required
+            value={phone}
+            onChange={handlePhoneChange}
+            placeholder="যেমন: 017XXXXXXXX"
+            className="rounded-lg sm:rounded-xl h-10 text-sm px-3 bg-background"
+          />
+        </div>
+
+        {/* OTP Input Card when OTP is sent */}
+        {!isPhoneVerified && otpSent && (
+          <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 space-y-2.5 mt-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-foreground">
+                ৬ ডিজিটের ওটিপি কোড লিখুন
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                {countdown > 0 ? (
+                  `পুনরায় পাঠান (${countdown}s)`
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isSendingOtp}
+                    className="text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer font-medium"
+                  >
+                    পুনরায় পাঠান
+                  </button>
+                )}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <InputOTP
+                maxLength={6}
+                value={otpCode}
+                onChange={(val) => setOtpCode(val)}
+              >
+                <InputOTPGroup className="gap-1 sm:gap-1.5">
+                  <InputOTPSlot
+                    index={0}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                  <InputOTPSlot
+                    index={1}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                  <InputOTPSlot
+                    index={2}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                  <InputOTPSlot
+                    index={3}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                  <InputOTPSlot
+                    index={4}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                  <InputOTPSlot
+                    index={5}
+                    className="size-8 sm:size-9 rounded-lg"
+                  />
+                </InputOTPGroup>
+              </InputOTP>
+
+              <Button
+                type="button"
+                onClick={handleVerifyOtp}
+                disabled={isVerifyingOtp || otpCode.length < 4}
+                size="sm"
+                className="h-8 sm:h-9 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-3 cursor-pointer shrink-0"
+              >
+                {isVerifyingOtp ? <Spinner className="size-3" /> : "যাচাই করুন"}
+              </Button>
+            </div>
+
+            {mockHint && (
+              <p className="text-[11px] font-mono text-emerald-700 dark:text-emerald-300 font-semibold bg-emerald-500/10 p-1.5 rounded border border-emerald-500/20">
+                {mockHint}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Status / Error Alerts for OTP */}
+        {otpError && (
+          <p className="text-[11px] text-red-600 dark:text-red-400 font-medium">
+            {otpError}
+          </p>
+        )}
+        {otpMessage && !otpError && (
+          <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
+            {otpMessage}
+          </p>
+        )}
+      </div>
+
+      {/* Address */}
       <div className="space-y-1">
         <Label
           htmlFor="address"
@@ -243,14 +474,31 @@ export function DirectCheckoutForm({
         </p>
       </div>
 
-      <Button
-        type="submit"
-        size="lg"
-        className="w-full rounded-lg sm:rounded-xl bg-emerald-600 font-bold text-white hover:bg-emerald-700 h-11 sm:h-12 text-sm sm:text-base shadow-xs mt-1 cursor-pointer"
-      >
-        <BagShopping className="size-4 shrink-0" />
-        <span>অর্ডার কনফার্ম করুন — ৳{payableAmount.toLocaleString("bn-BD")}</span>
-      </Button>
+      {/* Checkout Submit Button - requires OTP verification */}
+      {!isPhoneVerified ? (
+        <Button
+          type="button"
+          onClick={handleSendOtp}
+          disabled={isSendingOtp || !phone || phone.length < 11}
+          size="lg"
+          className="w-full rounded-lg sm:rounded-xl bg-emerald-600 font-bold text-white hover:bg-emerald-700 h-11 sm:h-12 text-sm sm:text-base shadow-xs mt-1 cursor-pointer"
+        >
+          {isSendingOtp ? (
+            <Spinner className="size-4" />
+          ) : (
+            <span>মোবাইল নম্বর ওটিপি দিয়ে যাচাই করুন</span>
+          )}
+        </Button>
+      ) : (
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full rounded-lg sm:rounded-xl bg-emerald-600 font-bold text-white hover:bg-emerald-700 h-11 sm:h-12 text-sm sm:text-base shadow-xs mt-1 cursor-pointer"
+        >
+          <BagShopping className="size-4 shrink-0" />
+          <span>অর্ডার কনফার্ম করুন — ৳{payableAmount.toLocaleString("bn-BD")}</span>
+        </Button>
+      )}
 
       <p className="text-[10px] sm:text-[11px] text-center text-muted-foreground">
         অর্ডারটি নিশ্চিত করার পর আমাদের প্রতিনিধি আপনাকে কল দিয়ে কনফার্ম করবেন।
