@@ -78,7 +78,7 @@ export async function Footer() {
               href="mailto:frostfoe@gmail.com"
               className="ml-1 font-mono font-medium text-foreground hover:text-emerald-600 transition-colors"
             >
-              &lt;/ FrostFoe&gt;
+              &lt;/ Prohor &gt;
             </a>
           </p>
         </div>
