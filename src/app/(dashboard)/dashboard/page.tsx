@@ -56,27 +56,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6 max-w-6xl">
-      {/* ─── Greeting & Hero ─── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/80 pb-4 sm:pb-5">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-            স্বাগতম, স্বাস্থ্যকর ড্যাশবোর্ডে!
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            আপনার অর্ডার, ডেলিভারি ট্র্যাকিং এবং প্রোফাইল এক জায়গা থেকেই পরিচালনা করুন।
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/search"
-            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-sm text-white font-semibold shadow-xs transition-colors"
-          >
-            <BagShopping className="size-4" />
-            শপিং করুন
-          </Link>
-        </div>
-      </div>
-
       {/* ─── Stats Grid ─── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {

@@ -1,14 +1,7 @@
 import { eq } from "drizzle-orm";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LoyaltyPointsCard } from "@/components/dashboard";
-import {
-  BagShopping,
-  Coins,
-  Gift,
-  Sparkles,
-  TrendUp,
-} from "@/components/icons";
+import { Gift, Sparkles, TrendUp } from "@/components/icons";
 import {
   Card,
   CardContent,
@@ -51,28 +44,6 @@ export default async function RewardsPage() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground flex items-center gap-2.5">
-            <Coins className="size-7 text-emerald-600 dark:text-emerald-400" />
-            রিওয়ার্ড ও ক্যাশব্যাক
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            স্বাস্থ্যকর থেকে প্রতি অর্ডারে পয়েন্ট অর্জন করুন এবং ভবিষ্যতে কেনাকাটায় ছাড় নিন।
-          </p>
-        </div>
-        <div>
-          <Link
-            href="/search"
-            className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-sm text-white font-semibold shadow-xs transition-colors"
-          >
-            <BagShopping className="size-4" />
-            কেনাকাটা করুন
-          </Link>
-        </div>
-      </div>
-
       {/* Main Loyalty Points Wallet Card with auto-confetti */}
       <LoyaltyPointsCard
         balance={initialPoints}

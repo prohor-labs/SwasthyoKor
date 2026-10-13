@@ -24,17 +24,6 @@ export default async function UserProfilePage() {
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-            প্রোফাইল ও সেটিংস
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            আপনার অ্যাকাউন্টের বিবরণ, যোগাযোগের তথ্য ও ডিসপ্লে প্রেফারেন্স।
-          </p>
-        </div>
-      </div>
-
       <ProfileForm
         initialUser={{
           id: user.id,

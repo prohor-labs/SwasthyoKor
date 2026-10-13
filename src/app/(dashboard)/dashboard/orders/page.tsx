@@ -3,7 +3,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Box, Calendar, Package, Receipt } from "@/components/icons";
 import { ListCard } from "@/components/shared";
-import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyDescription,
@@ -63,27 +62,6 @@ export default async function UserOrdersPage() {
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
-      {/* Page header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
-            আমার অর্ডারসমূহ
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            মোট {userOrders.length}টি অর্ডার পাওয়া গিয়েছে।
-          </p>
-        </div>
-        <Button
-          render={
-            <Link href="/search">
-              <Box data-icon="inline-start" />
-              <span>নতুন অর্ডার করুন</span>
-            </Link>
-          }
-          className="rounded-xl shadow-xs"
-        />
-      </div>
-
       {/* Order list */}
       {userOrders.length === 0 ? (
         <Empty>
