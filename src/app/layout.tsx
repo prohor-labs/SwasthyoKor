@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { QueryProvider } from "@/components/query-provider";
 import { FloatingWhatsApp } from "@/components/shared";
 import { Toaster } from "@/components/ui/toast";
-import { WelcomeToast } from "@/components/welcome-toast";
 import "./globals.css";
 import { baseUrl, cn } from "@/lib/utils";
 
@@ -47,7 +46,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <QueryProvider>
           {children}
           <Toaster />
-          <WelcomeToast />
           <FloatingWhatsApp />
         </QueryProvider>
       </body>
