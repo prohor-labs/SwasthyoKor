@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { WhatsAppIcon } from "@/components/icons";
 import { Call, Clock, Location, ShieldCheck, Sms } from "reicon-react";
+import { WhatsAppIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { siteConfig } from "@/config";
