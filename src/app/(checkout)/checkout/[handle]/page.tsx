@@ -161,18 +161,6 @@ export default async function CheckoutProductPage(props: {
                     ৳{finalTotal.toLocaleString("bn-BD")}
                   </span>
                 </div>
-
-                {/* Reassurance Guarantees */}
-                <div className="rounded-xl border border-border/60 bg-muted/25 p-3 space-y-2 pt-3 text-[11px] text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-600 font-bold">✓</span>
-                    <span>প্রাকৃতিক ও নিজস্ব তত্ত্বাবধানে সংগৃহীত খাঁটি পণ্য</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-emerald-600 font-bold">✓</span>
-                    <span>পণ্য হাতে পাওয়ার পর ৭ দিনের মান নিশ্চয়তা ও রিটার্ন</span>
-                  </div>
-                </div>
               </CardContent>
             </Card>
           </div>
