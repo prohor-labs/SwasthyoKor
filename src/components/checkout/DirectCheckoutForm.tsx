@@ -14,6 +14,7 @@ interface DirectCheckoutFormProps {
   finalTotal: number;
   initialName?: string;
   initialPhone?: string;
+  allowCoupons?: boolean;
 }
 
 export function DirectCheckoutForm({
@@ -22,7 +23,9 @@ export function DirectCheckoutForm({
   finalTotal,
   initialName = "",
   initialPhone = "",
+  allowCoupons = true,
 }: DirectCheckoutFormProps) {
+  const [isCouponOpen, setIsCouponOpen] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{
     code: string;
@@ -142,84 +145,111 @@ export function DirectCheckoutForm({
       </div>
 
       {/* Coupon Application Box */}
-      <div className="pt-0.5">
-        <div className="rounded-lg sm:rounded-xl border border-border/80 bg-neutral-50/60 dark:bg-neutral-900/40 p-2.5 sm:p-3.5 space-y-2">
-          <Label className="text-xs font-semibold text-foreground flex items-center gap-1.5">
-            <Tag className="size-3.5 text-emerald-600 shrink-0" />
-            <span>কুপন বা ডিসকাউন্ট ভাউচার কোড</span>
-          </Label>
-
-          {appliedCoupon ? (
-            <div className="flex items-center justify-between p-2 rounded-md sm:rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs text-emerald-900 dark:text-emerald-200">
-              <div className="flex items-center gap-1.5 min-w-0">
-                <CheckCircle className="size-3.5 text-emerald-600 shrink-0" />
-                <span className="truncate">
-                  কুপন{" "}
-                  <strong className="font-mono uppercase">
-                    {appliedCoupon.code}
-                  </strong>{" "}
-                  যুক্ত হয়েছে (-৳
-                  {appliedCoupon.discountAmount.toLocaleString("bn-BD")})
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={handleRemoveCoupon}
-                className="text-muted-foreground hover:text-red-600 transition-colors p-1 shrink-0"
-                title="কুপন মুছুন"
-              >
-                <CloseCircle className="size-4" />
-              </button>
-            </div>
+      {allowCoupons ? (
+        <div className="pt-0.5">
+          {!isCouponOpen && !appliedCoupon ? (
+            <button
+              type="button"
+              onClick={() => setIsCouponOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 hover:underline cursor-pointer transition-colors"
+            >
+              <Tag className="size-3.5 shrink-0" />
+              <span>আপনার কি কোনো কুপন বা প্রোমোকোড আছে?</span>
+            </button>
           ) : (
-            <div className="flex gap-2">
-              <Input
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                placeholder="প্রোমোকোড লিখুন (যেমন: SWAS10)"
-                className="rounded-md sm:rounded-lg h-9 text-xs font-mono uppercase bg-background"
-              />
-              <Button
-                type="button"
-                onClick={handleApplyCoupon}
-                disabled={isApplying || !couponCode.trim()}
-                variant="outline"
-                size="sm"
-                className="rounded-md sm:rounded-lg h-9 px-3.5 text-xs font-semibold shrink-0 cursor-pointer border-emerald-600 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
-              >
-                {isApplying ? <Spinner className="size-3" /> : "প্রয়োগ করুন"}
-              </Button>
+            <div className="rounded-lg sm:rounded-xl border border-border/80 bg-neutral-50/60 dark:bg-neutral-900/40 p-2.5 sm:p-3.5 space-y-2">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+                  <Tag className="size-3.5 text-emerald-600 shrink-0" />
+                  <span>কুপন বা ডিসকাউন্ট কোড</span>
+                </Label>
+                {!appliedCoupon && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCouponOpen(false);
+                      setCouponError("");
+                    }}
+                    className="text-[11px] text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    বন্ধ করুন
+                  </button>
+                )}
+              </div>
+
+              {appliedCoupon ? (
+                <div className="flex items-center justify-between p-2 rounded-md sm:rounded-lg border border-emerald-500/40 bg-emerald-500/10 text-xs text-emerald-900 dark:text-emerald-200">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <CheckCircle className="size-3.5 text-emerald-600 shrink-0" />
+                    <span className="truncate">
+                      কুপন{" "}
+                      <strong className="font-mono uppercase">
+                        {appliedCoupon.code}
+                      </strong>{" "}
+                      যুক্ত হয়েছে (-৳
+                      {appliedCoupon.discountAmount.toLocaleString("bn-BD")})
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemoveCoupon}
+                    className="text-muted-foreground hover:text-red-600 transition-colors p-1 shrink-0"
+                    title="কুপন মুছুন"
+                  >
+                    <CloseCircle className="size-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <Input
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    placeholder="প্রোমোকোড লিখুন (যেমন: SWAS10)"
+                    className="rounded-md sm:rounded-lg h-9 text-xs font-mono uppercase bg-background"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleApplyCoupon}
+                    disabled={isApplying || !couponCode.trim()}
+                    variant="outline"
+                    size="sm"
+                    className="rounded-md sm:rounded-lg h-9 px-3.5 text-xs font-semibold shrink-0 cursor-pointer border-emerald-600 text-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                  >
+                    {isApplying ? <Spinner className="size-3" /> : "প্রয়োগ করুন"}
+                  </Button>
+                </div>
+              )}
+
+              {couponError ? (
+                <p className="text-[11px] text-red-600 dark:text-red-400 font-medium">
+                  {couponError}
+                </p>
+              ) : null}
+
+              {appliedCoupon ? (
+                <div className="pt-1 text-xs text-muted-foreground space-y-1">
+                  <div className="flex justify-between">
+                    <span>মূল মূল্য:</span>
+                    <span>৳{finalTotal.toLocaleString("bn-BD")}</span>
+                  </div>
+                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span>কুপন ছাড়:</span>
+                    <span>
+                      -৳{appliedCoupon.discountAmount.toLocaleString("bn-BD")}
+                    </span>
+                  </div>
+                  <div className="flex justify-between font-bold text-foreground border-t border-border/50 pt-1 text-sm">
+                    <span>পরিশোধযোগ্য মূল্য:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400">
+                      ৳{payableAmount.toLocaleString("bn-BD")}
+                    </span>
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
-
-          {couponError ? (
-            <p className="text-[11px] text-red-600 dark:text-red-400 font-medium">
-              {couponError}
-            </p>
-          ) : null}
-
-          {appliedCoupon ? (
-            <div className="pt-1 text-xs text-muted-foreground space-y-1">
-              <div className="flex justify-between">
-                <span>মূল মূল্য:</span>
-                <span>৳{finalTotal.toLocaleString("bn-BD")}</span>
-              </div>
-              <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                <span>কুপন ছাড়:</span>
-                <span>
-                  -৳{appliedCoupon.discountAmount.toLocaleString("bn-BD")}
-                </span>
-              </div>
-              <div className="flex justify-between font-bold text-foreground border-t border-border/50 pt-1 text-sm">
-                <span>পরিশোধযোগ্য মূল্য:</span>
-                <span className="text-emerald-600 dark:text-emerald-400">
-                  ৳{payableAmount.toLocaleString("bn-BD")}
-                </span>
-              </div>
-            </div>
-          ) : null}
         </div>
-      </div>
+      ) : null}
 
       {/* Cash On Delivery Method Banner */}
       <div className="rounded-lg sm:rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-2.5 sm:p-3 space-y-1">

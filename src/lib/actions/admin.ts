@@ -58,11 +58,14 @@ export async function createProductAction(formData: FormData) {
     const id = `prod_${crypto.randomUUID().slice(0, 8)}`;
     const now = new Date();
 
+    const allowCoupons = formData.get("allowCoupons") !== "false";
+
     await db.insert(products).values({
       id,
       title,
       handle,
       description,
+      allowCoupons,
       createdAt: now,
       updatedAt: now,
     });
@@ -111,6 +114,7 @@ export async function updateProductAction(formData: FormData) {
     const title = (formData.get("title") as string)?.trim();
     const description = (formData.get("description") as string)?.trim() || "";
     const availableForSale = formData.get("availableForSale") === "true";
+    const allowCoupons = formData.get("allowCoupons") !== "false";
     const collectionId = (formData.get("collectionId") as string) || null;
     const variantsJson = formData.get("variants") as string;
 
@@ -125,6 +129,7 @@ export async function updateProductAction(formData: FormData) {
         title,
         description,
         availableForSale,
+        allowCoupons,
         updatedAt: now,
       })
       .where(eq(products.id, id));

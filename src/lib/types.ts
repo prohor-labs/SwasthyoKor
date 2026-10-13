@@ -325,6 +325,7 @@ export type Product = {
   descriptionHtml?: string;
   tags: string[];
   availableForSale: boolean;
+  allowCoupons?: boolean;
   brand?: string;
   productType?: string;
   deliveryInfo?: string;

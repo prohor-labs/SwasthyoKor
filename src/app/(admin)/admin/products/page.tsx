@@ -58,6 +58,7 @@ export default async function AdminProductsPage() {
       unit,
       imageUrl: img?.url,
       available: prod.availableForSale && totalInventory > 0,
+      allowCoupons: prod.allowCoupons ?? true,
       variants: prodVariants.map((v) => ({
         id: v.id,
         title: v.title,

@@ -41,6 +41,7 @@ export function CreateProductDialog({
   const [rootUnit, setRootUnit] = useState<ProductUnit>("jar");
   const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
   const [totalStock, setTotalStock] = useState<number>(100);
+  const [allowCoupons, setAllowCoupons] = useState<string>("true");
 
   const getAutoPackStock = (amt: number | undefined, stock: number) => {
     if (!amt || amt <= 0 || stock <= 0) return 0;
@@ -64,6 +65,7 @@ export function CreateProductDialog({
       const defaultUnit: ProductUnit = "jar";
       setRootUnit(defaultUnit);
       setSelectedCollectionId("");
+      setAllowCoupons("true");
       const defaultAmt = getDefaultAmountForUnit(defaultUnit);
       const initialStock = 100;
       setTotalStock(initialStock);
@@ -180,6 +182,7 @@ export function CreateProductDialog({
     formData.append("variants", JSON.stringify(formattedVariants));
     formData.set("unit", rootUnit);
     formData.set("collectionId", selectedCollectionId);
+    formData.set("allowCoupons", allowCoupons);
 
     if (formattedVariants.length > 0) {
       formData.set("price", formattedVariants[0].price);
@@ -353,6 +356,32 @@ export function CreateProductDialog({
                         {col.title}
                       </SelectItem>
                     ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </Field>
+
+            <Field>
+              <FieldLabel
+                htmlFor="prod-coupon"
+                className="text-xs sm:text-sm font-semibold text-foreground/90"
+              >
+                কুপন কোড সুবিধা
+              </FieldLabel>
+              <Select
+                value={allowCoupons}
+                onValueChange={(val) => setAllowCoupons(val ?? "true")}
+              >
+                <SelectTrigger
+                  id="prod-coupon"
+                  className="w-full h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">কুপন প্রযোজ্য (সক্রিয়)</SelectItem>
+                    <SelectItem value="false">কুপন বন্ধ (নিষ্ক্রিয়)</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

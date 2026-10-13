@@ -109,6 +109,7 @@ function toProduct(row: ProductRow): Product {
         : undefined),
     tags: row.tags,
     availableForSale: row.availableForSale && hasInStockVariant,
+    allowCoupons: row.allowCoupons ?? true,
     rating,
     reviewCount,
     category: firstCollection

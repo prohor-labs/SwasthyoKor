@@ -52,6 +52,7 @@ export interface EditProductItem {
   collectionId?: string;
   imageUrl?: string;
   available: boolean;
+  allowCoupons?: boolean;
   variants?: ProductVariantItem[];
 }
 
@@ -103,6 +104,9 @@ export function EditProductDialog({
   const [availableForSale, setAvailableForSale] = useState<string>(
     product.available ? "true" : "false",
   );
+  const [allowCoupons, setAllowCoupons] = useState<string>(
+    product.allowCoupons !== false ? "true" : "false",
+  );
 
   const getInitialVariants = (unitToUse: ProductUnit, stock: number): ProductVariantItem[] => {
     if (product.variants && product.variants.length > 0) {
@@ -152,6 +156,7 @@ export function EditProductDialog({
       setTotalStock(stock);
       setSelectedCollectionId(product.collectionId || "");
       setAvailableForSale(product.available ? "true" : "false");
+      setAllowCoupons(product.allowCoupons !== false ? "true" : "false");
       setVariants(getInitialVariants(u, stock));
       setError(null);
     }
@@ -260,6 +265,7 @@ export function EditProductDialog({
     formData.set("unit", rootUnit);
     formData.set("collectionId", selectedCollectionId);
     formData.set("availableForSale", availableForSale);
+    formData.set("allowCoupons", allowCoupons);
 
     if (formattedVariants.length > 0) {
       formData.set("price", formattedVariants[0].price);
@@ -469,6 +475,32 @@ export function EditProductDialog({
                   <SelectGroup>
                     <SelectItem value="true">ইন স্টক (In Stock)</SelectItem>
                     <SelectItem value="false">স্টক শেষ (Out of Stock)</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </Field>
+
+            <Field>
+              <FieldLabel
+                htmlFor={`prod-coupon-${product.id}`}
+                className="text-xs sm:text-sm font-semibold text-foreground/90"
+              >
+                কুপন কোড সুবিধা
+              </FieldLabel>
+              <Select
+                value={allowCoupons}
+                onValueChange={(val) => setAllowCoupons(val ?? "true")}
+              >
+                <SelectTrigger
+                  id={`prod-coupon-${product.id}`}
+                  className="w-full h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">কুপন প্রযোজ্য (সক্রিয়)</SelectItem>
+                    <SelectItem value="false">কুপন বন্ধ (নিষ্ক্রিয়)</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

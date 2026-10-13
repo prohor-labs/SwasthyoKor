@@ -63,6 +63,7 @@ export const products = pgTable(
     descriptionHtml: text("description_html"),
     tags: jsonb("tags").$type<string[]>().notNull().default([]),
     availableForSale: boolean("available_for_sale").notNull().default(true),
+    allowCoupons: boolean("allow_coupons").notNull().default(true),
     createdAt: timestamp("created_at", { withTimezone: true })
       .notNull()
       .defaultNow(),
