@@ -32,7 +32,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
       <div className="group relative flex flex-col justify-between overflow-hidden rounded-xl sm:rounded-2xl border-0 sm:border sm:border-border/70 bg-transparent sm:bg-card p-1 sm:p-3.5 shadow-none sm:shadow-2xs transition-all duration-300 hover:border-emerald-500/50 hover:shadow-md h-full">
         {/* Product Image */}
         <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-muted/25 sm:bg-muted/30 mb-2">
-          <Link href={`/product/${product.handle}`} className="block size-full">
+          <Link href={`/product/${product.handle}`} className="relative block size-full">
             {product.featuredImage?.url ? (
               <Image
                 src={product.featuredImage.url}
