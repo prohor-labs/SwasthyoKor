@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "next": true,
+  "ignore": [
+    "src/components/ui/**",
+    ".agents/**",
+    "scripts/**",
+    "src/lib/storage.ts",
+    "src/lib/auth/oauth.ts"
+  ],
+  "ignoreDependencies": [
+    "@aws-sdk/client-s3",
+    "drizzle-kit",
+    "@shadcn/react",
+    "cmdk",
+    "input-otp",
+    "next-themes",
+    "react-day-picker",
+    "react-resizable-panels",
+    "recharts",
+    "sonner"
+  ],
+  "ignoreExportsUsedInFile": true
+}

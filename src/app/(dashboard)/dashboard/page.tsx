@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { BagShopping, Box, CheckCircle, Receipt } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { logoutAction } from "@/lib/actions/auth";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { getCart } from "@/lib/db/queries";
@@ -192,7 +193,7 @@ export default async function DashboardPage() {
             >
               মূল ওয়েবসাইটে ফিরুন
             </Link>
-            <form action="/api/auth/logout" method="POST">
+            <form action={logoutAction}>
               <button
                 type="submit"
                 className="inline-flex items-center justify-center rounded-xl text-destructive hover:bg-destructive/10 px-4 py-2 text-xs font-semibold transition-colors w-full cursor-pointer"

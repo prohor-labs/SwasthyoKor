@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { updateStoreSettingsAction } from "@/lib/actions/admin";
 import type { StoreSettings } from "@/lib/db/schema";
 
 export function StoreSettingsForm({
@@ -46,14 +47,14 @@ export function StoreSettingsForm({
     setSuccess(false);
 
     try {
-      const res = await fetch("/api/admin/settings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      const formPayload = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        formPayload.append(key, String(value ?? ""));
       });
 
-      if (!res.ok) {
-        throw new Error("সেটিংস সংরক্ষণ ব্যর্থ হয়েছে।");
+      const res = await updateStoreSettingsAction(formPayload);
+      if (!res.success) {
+        throw new Error(res.error || "সেটিংস সংরক্ষণ ব্যর্থ হয়েছে।");
       }
 
       setSuccess(true);

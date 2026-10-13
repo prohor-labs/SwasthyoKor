@@ -5,8 +5,6 @@ export * from "./CreateProductDialog";
 export * from "./EditProductDialog";
 export * from "./ManageOrderDialog";
 export * from "./OrdersList";
-export * from "./OrdersTable";
 export * from "./ProductsList";
-export * from "./ProductsTable";
 export * from "./QuickList";
 export * from "./StatsCards";

@@ -15,11 +15,3 @@ export function useSession() {
     refetch,
   };
 }
-
-export function useUser() {
-  const { data, isPending } = useSession();
-  return {
-    user: data?.user ?? null,
-    isLoading: isPending,
-  };
-}

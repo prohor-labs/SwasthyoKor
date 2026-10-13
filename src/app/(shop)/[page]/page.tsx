@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Prose } from "@/components/prose";
-import { getPage } from "@/lib/db/queries";
+import { getPage, getPages } from "@/lib/db/queries";
 
 import { baseUrl } from "@/lib/utils";
+
+export async function generateStaticParams() {
+  const pages = await getPages();
+  return pages.map((page) => ({ page: page.handle }));
+}
 
 export async function generateMetadata(props: {
   params: Promise<{ page: string }>;
