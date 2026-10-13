@@ -235,17 +235,8 @@ export function DirectCheckoutForm({
         </div>
       ) : null}
 
-      {/* Cash On Delivery Method Banner */}
-      <div className="rounded-lg sm:rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-2.5 sm:p-3 space-y-1">
-        <div className="flex items-center justify-between gap-1.5 flex-wrap">
-          <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300">
-            পেমেন্ট পদ্ধতি: ক্যাশ অন ডেলিভারি (COD)
-          </span>
-          <span className="text-[10px] sm:text-[11px] font-semibold bg-emerald-600 text-white px-2 py-0.5 rounded-full">
-            পণ্য পেয়ে মূল্য পরিশোধ
-          </span>
-        </div>
-        <p className="text-[11px] sm:text-xs text-muted-foreground leading-normal">
+      <div className="rounded-lg sm:rounded-xl border border-emerald-500/25 bg-emerald-500/5 p-2.5 sm:p-3 text-center">
+        <p className="text-[11px] sm:text-xs text-muted-foreground font-medium leading-normal">
           অর্ডারটি কনফার্ম করার পর ডেলিভারিম্যান থেকে পণ্যটি বুঝে নিয়ে মূল্য পরিশোধ করুন।
         </p>
       </div>

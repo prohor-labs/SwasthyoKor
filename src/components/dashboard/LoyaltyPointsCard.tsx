@@ -85,7 +85,7 @@ export function LoyaltyPointsCard() {
           <div className="flex items-start gap-2 rounded-lg bg-muted/40 p-2.5 border border-border/50">
             <Coins className="size-4 shrink-0 text-emerald-500 mt-0.5" />
             <span>
-              <strong>প্রতি অর্ডারে লাভ:</strong> কেনাকাটার ওপর {LOYALTY_CONFIG.purchaseRewardPercentage}% পয়েন্ট ক্যাশব্যাক জমা হয়।
+              <strong>প্রতি অর্ডারে লাভ:</strong> প্রতি ১০০ টাকা কেনাকাটায় ১ পয়েন্ট (১%) রিওয়ার্ড পয়েন্ট জমা হবে।
             </span>
           </div>
         </div>

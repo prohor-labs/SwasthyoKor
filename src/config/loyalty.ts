@@ -11,8 +11,14 @@ export interface LoyaltyRewardsConfig {
   pointToBdtRate: number;
 
   /**
+   * Amount in BDT required to earn 1 point.
+   * e.g. 100 BDT = 1 point (1.0% cash-back rate)
+   */
+  spendAmountPerPoint: number;
+
+  /**
    * Percentage of completed order amount earned as coins/points on purchases.
-   * e.g. 2.0 = 2% cash-back in points. A 1000 BDT order earns 20 points.
+   * 100 BDT = 1 point means 1.0%
    */
   purchaseRewardPercentage: number;
 
@@ -31,7 +37,8 @@ export interface LoyaltyRewardsConfig {
 export const LOYALTY_CONFIG: LoyaltyRewardsConfig = {
   signupRewardPoints: 20,
   pointToBdtRate: 1.0,
-  purchaseRewardPercentage: 2.0,
+  spendAmountPerPoint: 100,
+  purchaseRewardPercentage: 1.0,
   minRedemptionPoints: 20,
   maxRedemptionPercentage: 50,
 };
