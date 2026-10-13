@@ -96,23 +96,6 @@ export function DirectCheckoutForm({
 
       <div className="space-y-1">
         <Label
-          htmlFor="name"
-          className="text-xs sm:text-sm font-semibold text-foreground/90"
-        >
-          আপনার পুরো নাম
-        </Label>
-        <Input
-          id="name"
-          name="name"
-          required
-          defaultValue={initialName}
-          placeholder="যেমন: মোঃ সাকিব হাসান"
-          className="rounded-lg sm:rounded-xl h-10 text-sm px-3 bg-background"
-        />
-      </div>
-
-      <div className="space-y-1">
-        <Label
           htmlFor="phone"
           className="text-xs sm:text-sm font-semibold text-foreground/90"
         >
