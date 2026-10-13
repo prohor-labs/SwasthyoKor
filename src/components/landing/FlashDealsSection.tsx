@@ -18,9 +18,6 @@ export async function FlashDealsSection() {
           <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">
             হট ডিল ও বিশেষ অফার
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
-            খাঁটি অর্গানিক পণ্যে আকর্ষণীয় ছাড় ও স্পেশাল সেভার বান্ডেল
-          </p>
         </div>
 
         <Button

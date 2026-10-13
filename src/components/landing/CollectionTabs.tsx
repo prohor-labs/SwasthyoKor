@@ -10,9 +10,6 @@ export function CollectionTabsSection() {
           <h2 className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl md:text-3xl">
             সকল অর্গানিক পণ্য ও সুপারফুড
           </h2>
-          <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-            সেরা কোয়ালিটির বাছাইকৃত পণ্য সম্ভার
-          </p>
         </div>
         <Button
           render={<Link href="/search" />}
