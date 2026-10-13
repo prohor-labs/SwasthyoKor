@@ -25,9 +25,15 @@ export function Gallery({
 
     setCurrent(api.selectedScrollSnap());
 
-    api.on("select", () => {
+    const onSelect = () => {
       setCurrent(api.selectedScrollSnap());
-    });
+    };
+
+    api.on("select", onSelect);
+
+    return () => {
+      api.off("select", onSelect);
+    };
   }, [api]);
 
   const onThumbClick = (index: number) => {

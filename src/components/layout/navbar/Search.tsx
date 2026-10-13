@@ -16,7 +16,9 @@ import { createUrl } from "@/lib/utils";
 export default function Search() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(searchParams?.get("q") || "");
+  const [searchTerm, setSearchTerm] = useState(
+    () => searchParams?.get("q") || "",
+  );
   const [results, setResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

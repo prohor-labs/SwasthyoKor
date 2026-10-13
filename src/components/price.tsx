@@ -1,3 +1,8 @@
+const bdtFormatter = new Intl.NumberFormat("bn-BD", {
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+});
+
 export default function Price({
   amount,
   className,
@@ -12,10 +17,7 @@ export default function Price({
   const numericAmount = parseFloat(amount);
   const formatted = Number.isNaN(numericAmount)
     ? "০"
-    : new Intl.NumberFormat("bn-BD", {
-        maximumFractionDigits: 2,
-        minimumFractionDigits: 0,
-      }).format(numericAmount);
+    : bdtFormatter.format(numericAmount);
 
   return (
     <p suppressHydrationWarning={true} className={className}>

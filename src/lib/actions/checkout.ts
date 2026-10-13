@@ -54,17 +54,19 @@ export async function checkout(): Promise<void> {
   });
 
   // Auto-deduct inventory
-  for (const line of cart.lines) {
-    if (line.merchandise.id) {
-      await db
-        .update(productVariants)
-        .set({
-          inventoryQuantity: sql`GREATEST(0, ${productVariants.inventoryQuantity} - ${line.quantity})`,
-          availableForSale: sql`CASE WHEN ${productVariants.inventoryQuantity} - ${line.quantity} <= 0 THEN false ELSE ${productVariants.availableForSale} END`,
-        })
-        .where(eq(productVariants.id, line.merchandise.id));
-    }
-  }
+  await Promise.all(
+    cart.lines
+      .filter((line) => Boolean(line.merchandise.id))
+      .map((line) =>
+        db
+          .update(productVariants)
+          .set({
+            inventoryQuantity: sql`GREATEST(0, ${productVariants.inventoryQuantity} - ${line.quantity})`,
+            availableForSale: sql`CASE WHEN ${productVariants.inventoryQuantity} - ${line.quantity} <= 0 THEN false ELSE ${productVariants.availableForSale} END`,
+          })
+          .where(eq(productVariants.id, line.merchandise.id)),
+      ),
+  );
 
   // Clear cart
   if (cartId) {
