@@ -52,6 +52,7 @@ export function DirectCheckoutForm({
         body: JSON.stringify({
           code: couponCode.trim(),
           orderAmount: finalTotal,
+          productHandle: handle,
         }),
       });
 

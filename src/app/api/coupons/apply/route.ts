@@ -1,17 +1,31 @@
 import { and, eq, gt, isNull, or } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { coupons } from "@/lib/db/schema";
+import { coupons, products } from "@/lib/db/schema";
 
 export async function POST(req: NextRequest) {
   try {
-    const { code, orderAmount } = await req.json();
+    const { code, orderAmount, productHandle } = await req.json();
 
     if (!code || typeof code !== "string") {
       return NextResponse.json(
         { error: "কুপন কোড প্রদান করুন।" },
         { status: 400 },
       );
+    }
+
+    if (productHandle && typeof productHandle === "string") {
+      const targetProduct = await db.query.products.findFirst({
+        where: eq(products.handle, productHandle),
+        columns: { id: true, allowCoupons: true },
+      });
+
+      if (targetProduct && targetProduct.allowCoupons === false) {
+        return NextResponse.json(
+          { error: "এই পণ্যে কুপন কোড প্রযোজ্য নয়।" },
+          { status: 400 },
+        );
+      }
     }
 
     const cleanCode = code.trim().toUpperCase();

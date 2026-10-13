@@ -107,7 +107,7 @@ export async function checkoutDirectProduct(formData: FormData): Promise<void> {
   let discountAmount = 0;
   let validatedCouponCode: string | null = null;
 
-  if (couponCode) {
+  if (couponCode && product.allowCoupons !== false) {
     const [coupon] = await db
       .select()
       .from(coupons)
