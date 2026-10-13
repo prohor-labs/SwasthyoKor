@@ -8,14 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Select,
   SelectContent,
   SelectGroup,
@@ -23,6 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import type { Coupon } from "@/lib/db/schema";
 
 export function CouponsManager({
@@ -146,7 +146,10 @@ export function CouponsManager({
             </Button>
           }
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-3 sm:gap-4"
+          >
             {error && (
               <div className="rounded-lg sm:rounded-xl bg-red-500/10 border border-red-500/30 p-2.5 text-xs font-semibold text-red-600 dark:text-red-400">
                 {error}
@@ -154,7 +157,10 @@ export function CouponsManager({
             )}
 
             <div className="flex flex-col gap-1">
-              <Label htmlFor="code" className="text-xs sm:text-sm font-semibold text-foreground/90">
+              <Label
+                htmlFor="code"
+                className="text-xs sm:text-sm font-semibold text-foreground/90"
+              >
                 কুপন কোড (যেমন: EID10, HEALTH20)
               </Label>
               <Input
@@ -174,11 +180,16 @@ export function CouponsManager({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">
-                <Label className="text-xs sm:text-sm font-semibold text-foreground/90">ডিসকাউন্ট ধরন</Label>
+                <Label className="text-xs sm:text-sm font-semibold text-foreground/90">
+                  ডিসকাউন্ট ধরন
+                </Label>
                 <Select
                   value={formData.discountType}
                   onValueChange={(val) =>
-                    setFormData({ ...formData, discountType: val ?? "percentage" })
+                    setFormData({
+                      ...formData,
+                      discountType: val ?? "percentage",
+                    })
                   }
                 >
                   <SelectTrigger className="w-full h-10 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium">

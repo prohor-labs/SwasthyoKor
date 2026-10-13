@@ -235,9 +235,15 @@ export function ManageOrderDialog({ order }: { order: AdminOrderItem }) {
               <SelectContent>
                 <SelectGroup>
                   <SelectItem value="confirmed">কনফার্মড (Confirmed)</SelectItem>
-                  <SelectItem value="shipped">ডেলিভারিতে পাঠানো হয়েছে (Shipped)</SelectItem>
-                  <SelectItem value="delivered">ডেলিভার্ড সম্পন্ন (Delivered)</SelectItem>
-                  <SelectItem value="cancelled">অর্ডার বাতিল (Cancelled)</SelectItem>
+                  <SelectItem value="shipped">
+                    ডেলিভারিতে পাঠানো হয়েছে (Shipped)
+                  </SelectItem>
+                  <SelectItem value="delivered">
+                    ডেলিভার্ড সম্পন্ন (Delivered)
+                  </SelectItem>
+                  <SelectItem value="cancelled">
+                    অর্ডার বাতিল (Cancelled)
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

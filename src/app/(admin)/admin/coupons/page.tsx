@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { CouponsManager } from "@/components/admin/CouponsManager";
 import { getCurrentUser } from "@/lib/auth/session";

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { ProfileForm, LoyaltyPointsCard } from "@/components/dashboard";
+import { LoyaltyPointsCard, ProfileForm } from "@/components/dashboard";
 import { ThemeToggler } from "@/components/theme-toggler";
 import { Badge } from "@/components/ui/badge";
 import {

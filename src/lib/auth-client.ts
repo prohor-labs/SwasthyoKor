@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { authApi, type User } from "./api";
+import { authApi } from "./api";
 
 export function useSession() {
   const { data, isPending, refetch } = useQuery({

@@ -1,14 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import {
-  ArrowDoorIn,
-  Check,
-  Like,
-  MessagePlus,
-  ShieldCheck,
-} from "@/components/icons";
+import { Check, Like, ShieldCheck } from "@/components/icons";
 import { ResponsiveDialog } from "@/components/shared/ResponsiveDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,6 +47,7 @@ function StarIcon({
       strokeLinecap="round"
       strokeLinejoin="round"
     >
+      <title>{filled ? "ভরাট স্টার" : "খালি স্টার"}</title>
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
     </svg>
   );
@@ -90,9 +84,7 @@ export function ProductReviews({
   };
 
   const avgRatingNum = totalReviews
-    ? (
-        reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews
-      ).toFixed(1)
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
     : "৫.০";
 
   const handleOpenWithRating = (rating: number) => {
@@ -320,10 +312,7 @@ export function ProductReviews({
                       : "bg-muted/40 text-muted-foreground border-border hover:bg-muted/80",
                   )}
                 >
-                  <StarIcon
-                    filled={true}
-                    className="size-3"
-                  />
+                  <StarIcon filled={true} className="size-3" />
                   <span>
                     {star} স্টার ({count})
                   </span>
@@ -431,9 +420,7 @@ export function ProductReviews({
 
                   {/* Helpfulness Footer */}
                   <div className="mt-4 pt-3 border-t border-border/40 flex items-center justify-between text-xs text-muted-foreground">
-                    <span className="text-[11px]">
-                      এই রিভিউটি কি সহায়ক ছিল?
-                    </span>
+                    <span className="text-[11px]">এই রিভিউটি কি সহায়ক ছিল?</span>
                     <button
                       type="button"
                       onClick={() => handleHelpfulClick(rev.id)}
@@ -470,10 +457,7 @@ export function ProductReviews({
             <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border/60">
               <Avatar className="size-10 rounded-full">
                 {user.avatarUrl && (
-                  <AvatarImage
-                    src={user.avatarUrl}
-                    alt={user.name || "User"}
-                  />
+                  <AvatarImage src={user.avatarUrl} alt={user.name || "User"} />
                 )}
                 <AvatarFallback className="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold text-sm">
                   {user.name ? user.name[0].toUpperCase() : "U"}

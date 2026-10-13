@@ -53,7 +53,10 @@ export function CreateCollectionDialog() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
         <FieldGroup className="gap-3 sm:gap-4">
           <Field>
-            <FieldLabel htmlFor="col-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+            <FieldLabel
+              htmlFor="col-title"
+              className="text-xs sm:text-sm font-semibold text-foreground/90"
+            >
               কালেকশনের নাম *
             </FieldLabel>
             <Input
@@ -66,7 +69,10 @@ export function CreateCollectionDialog() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="col-handle" className="text-xs sm:text-sm font-semibold text-foreground/90">
+            <FieldLabel
+              htmlFor="col-handle"
+              className="text-xs sm:text-sm font-semibold text-foreground/90"
+            >
               হ্যান্ডেল (URL Slug) *
             </FieldLabel>
             <Input
@@ -79,7 +85,10 @@ export function CreateCollectionDialog() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="col-subtitle" className="text-xs sm:text-sm font-semibold text-foreground/90">
+            <FieldLabel
+              htmlFor="col-subtitle"
+              className="text-xs sm:text-sm font-semibold text-foreground/90"
+            >
               হোমপেজ সাবটাইটেল / ট্যাগলাইন
             </FieldLabel>
             <Input
@@ -91,7 +100,10 @@ export function CreateCollectionDialog() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="col-image" className="text-xs sm:text-sm font-semibold text-foreground/90">
+            <FieldLabel
+              htmlFor="col-image"
+              className="text-xs sm:text-sm font-semibold text-foreground/90"
+            >
               ক্যাটাগরি ছবি (Image URL)
             </FieldLabel>
             <Input
@@ -103,7 +115,10 @@ export function CreateCollectionDialog() {
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="col-desc" className="text-xs sm:text-sm font-semibold text-foreground/90">
+            <FieldLabel
+              htmlFor="col-desc"
+              className="text-xs sm:text-sm font-semibold text-foreground/90"
+            >
               বিবরণ
             </FieldLabel>
             <Textarea

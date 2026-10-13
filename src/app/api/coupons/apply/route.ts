@@ -8,10 +8,7 @@ export async function POST(req: NextRequest) {
     const { code, orderAmount, productHandle } = await req.json();
 
     if (!code || typeof code !== "string") {
-      return NextResponse.json(
-        { error: "কুপন কোড প্রদান করুন।" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "কুপন কোড প্রদান করুন।" }, { status: 400 });
     }
 
     if (productHandle && typeof productHandle === "string") {
@@ -91,10 +88,9 @@ export async function POST(req: NextRequest) {
       finalAmount,
       message: "কুপন সফলভাবে যুক্ত হয়েছে!",
     });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message || "কুপন যাচাই করতে সমস্যা হয়েছে।" },
-      { status: 500 },
-    );
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "কুপন যাচাই করতে সমস্যা হয়েছে।";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

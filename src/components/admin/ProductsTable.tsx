@@ -23,7 +23,7 @@ import { deleteProductAction } from "@/lib/actions/admin";
 
 import { EditProductDialog, type EditProductItem } from "./EditProductDialog";
 
-function ProductsTable({
+export function ProductsTable({
   products,
   collections = [],
 }: {

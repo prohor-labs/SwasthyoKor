@@ -6,7 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+export const baseUrl =
+  process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const createUrl = (
   pathname: string,

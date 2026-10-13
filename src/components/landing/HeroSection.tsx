@@ -37,11 +37,7 @@ const HERO_SLIDES: BannerSlide[] = [
   },
 ];
 
-export function HeroSection({
-  slides: rawSlides,
-}: {
-  slides?: BannerSlide[];
-}) {
+export function HeroSection({ slides: rawSlides }: { slides?: BannerSlide[] }) {
   const slides = rawSlides && rawSlides.length > 0 ? rawSlides : HERO_SLIDES;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -122,7 +118,6 @@ export function HeroSection({
                 sizes="(min-width: 1280px) 1200px, 100vw"
                 className="object-cover object-center select-none"
               />
-
             </Link>
           ))}
 

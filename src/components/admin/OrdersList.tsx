@@ -134,7 +134,9 @@ export function OrdersList({ orders }: { orders: AdminOrderItem[] }) {
                   metaItems={[
                     {
                       icon: <Sms className="size-3.5" />,
-                      value: order.customerName ? `${order.customerName} (${order.email ?? "অতিথি"})` : (order.email ?? "অতিথি গ্রাহক"),
+                      value: order.customerName
+                        ? `${order.customerName} (${order.email ?? "অতিথি"})`
+                        : (order.email ?? "অতিথি গ্রাহক"),
                     },
                     ...(order.phone
                       ? [

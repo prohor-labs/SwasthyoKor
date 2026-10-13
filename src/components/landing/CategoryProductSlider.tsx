@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { ArrowLeft2, ArrowRight, ArrowRight2 } from "@/components/icons";
+import { ArrowLeft2, ArrowRight2 } from "@/components/icons";
 import { ProductCard } from "@/components/product";
 import { Button } from "@/components/ui/button";
 import type { Product } from "@/lib/types";
@@ -35,10 +35,7 @@ export function CategoryProductSlider({
       {/* Category Header */}
       <div className="flex items-center justify-between border-b border-border/50 pb-3 sm:pb-4 gap-3">
         <div className="min-w-0 flex-1">
-          <Link
-            href={`/category/${handle}`}
-            className="group block max-w-full"
-          >
+          <Link href={`/category/${handle}`} className="group block max-w-full">
             <h2 className="text-lg sm:text-2xl font-extrabold tracking-tight text-foreground truncate group-hover:text-primary transition-colors">
               {title}
             </h2>

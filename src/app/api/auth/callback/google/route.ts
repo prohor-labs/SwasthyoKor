@@ -13,7 +13,9 @@ export async function GET(req: NextRequest) {
   let callbackUrl = "/dashboard";
   if (state) {
     try {
-      const decoded = JSON.parse(Buffer.from(state, "base64").toString("utf-8"));
+      const decoded = JSON.parse(
+        Buffer.from(state, "base64").toString("utf-8"),
+      );
       if (decoded.callbackUrl) callbackUrl = decoded.callbackUrl;
     } catch {
       // Ignore malformed state
@@ -22,7 +24,10 @@ export async function GET(req: NextRequest) {
 
   if (error || !code) {
     return NextResponse.redirect(
-      new URL(`/login?error=${encodeURIComponent(error || "google_cancelled")}`, req.url),
+      new URL(
+        `/login?error=${encodeURIComponent(error || "google_cancelled")}`,
+        req.url,
+      ),
     );
   }
 
@@ -120,8 +125,7 @@ export async function GET(req: NextRequest) {
     }
 
     const rawIp =
-      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      undefined;
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined;
     const userAgent = req.headers.get("user-agent") || undefined;
 
     await createSession(user.id, {
@@ -129,7 +133,9 @@ export async function GET(req: NextRequest) {
       userAgent,
     });
 
-    const destination = callbackUrl.startsWith("/") ? callbackUrl : "/dashboard";
+    const destination = callbackUrl.startsWith("/")
+      ? callbackUrl
+      : "/dashboard";
     return NextResponse.redirect(new URL(destination, req.url));
   } catch (err) {
     console.error("Google OAuth callback error:", err);

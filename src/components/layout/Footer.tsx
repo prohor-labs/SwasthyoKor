@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { CopyrightDate } from "@/components/copyright-date";
 import { FooterMenu } from "@/components/layout/FooterMenu";
 import LogoSquare from "@/components/logo-square";
-import { getMenu } from "@/lib/db/queries";
 import { siteConfig } from "@/config";
+import { getMenu } from "@/lib/db/queries";
 
 export async function Footer() {
   const skeleton =

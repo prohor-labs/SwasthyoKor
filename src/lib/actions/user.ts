@@ -10,10 +10,14 @@ export async function submitReviewAction(formData: FormData) {
   try {
     const user = await getCurrentUser();
     const productId = formData.get("productId") as string;
-    const rating = Math.min(5, Math.max(1, Number(formData.get("rating") || 5)));
+    const rating = Math.min(
+      5,
+      Math.max(1, Number(formData.get("rating") || 5)),
+    );
     const title = (formData.get("title") as string)?.trim() || "";
     const comment = (formData.get("comment") as string)?.trim() || "";
-    const authorName = (formData.get("authorName") as string)?.trim() || user?.name || "গ্রাহক";
+    const authorName =
+      (formData.get("authorName") as string)?.trim() || user?.name || "গ্রাহক";
 
     if (!productId) {
       return { success: false, error: "পণ্য আইডি প্রয়োজন।" };
@@ -36,7 +40,10 @@ export async function submitReviewAction(formData: FormData) {
     revalidatePath(`/product`);
     return { success: true, error: "", review };
   } catch (err: any) {
-    return { success: false, error: err.message || "রিভিউ যোগ করতে সমস্যা হয়েছে।" };
+    return {
+      success: false,
+      error: err.message || "রিভিউ যোগ করতে সমস্যা হয়েছে।",
+    };
   }
 }
 
@@ -62,6 +69,9 @@ export async function updateProfileUserAction(formData: FormData) {
     revalidatePath("/dashboard/profile");
     return { success: true, message: "প্রোফাইল সফলভাবে আপডেট হয়েছে!", error: "" };
   } catch (err: any) {
-    return { success: false, error: err.message || "প্রোফাইল আপডেট করতে সমস্যা হয়েছে।" };
+    return {
+      success: false,
+      error: err.message || "প্রোফাইল আপডেট করতে সমস্যা হয়েছে।",
+    };
   }
 }

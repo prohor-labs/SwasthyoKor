@@ -97,7 +97,9 @@ export function CollectionsTable({
           <TableRow>
             <TableHead className="px-5 py-4">কালেকশন</TableHead>
             <TableHead className="px-4 py-4">হ্যান্ডেল (Slug)</TableHead>
-            <TableHead className="px-4 py-4 text-center">হোমপেজ শোকেস</TableHead>
+            <TableHead className="px-4 py-4 text-center">
+              হোমপেজ শোকেস
+            </TableHead>
             <TableHead className="px-4 py-4 text-center">ক্রম</TableHead>
             <TableHead className="px-4 py-4">বিবরণ / সাবটাইটেল</TableHead>
             <TableHead className="px-4 py-4 text-right">অ্যাকশন</TableHead>
@@ -225,10 +227,16 @@ export function CollectionsTable({
             </Alert>
           )}
 
-          <form onSubmit={handleEditSubmit} className="flex flex-col gap-3 sm:gap-4">
+          <form
+            onSubmit={handleEditSubmit}
+            className="flex flex-col gap-3 sm:gap-4"
+          >
             <FieldGroup className="gap-3 sm:gap-4">
               <Field>
-                <FieldLabel htmlFor="edit-col-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-col-title"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   কালেকশনের নাম *
                 </FieldLabel>
                 <Input
@@ -241,7 +249,10 @@ export function CollectionsTable({
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="edit-col-subtitle" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-col-subtitle"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   হোমপেজ সাবটাইটেল / ট্যাগলাইন
                 </FieldLabel>
                 <Input
@@ -254,7 +265,10 @@ export function CollectionsTable({
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="edit-col-handle" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-col-handle"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   হ্যান্ডেল (URL Slug) *
                 </FieldLabel>
                 <Input
@@ -267,7 +281,10 @@ export function CollectionsTable({
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="edit-col-image" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-col-image"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   ক্যাটাগরি ছবি URL (Image URL)
                 </FieldLabel>
                 <Input
@@ -280,7 +297,10 @@ export function CollectionsTable({
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="edit-col-desc" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-col-desc"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   বিবরণ
                 </FieldLabel>
                 <Textarea

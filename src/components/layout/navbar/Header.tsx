@@ -3,9 +3,9 @@ import { Suspense } from "react";
 import { CartModal } from "@/components/cart";
 import LogoSquare from "@/components/logo-square";
 import { ThemeToggler } from "@/components/theme-toggler";
+import { siteConfig } from "@/config";
 import { getMenu } from "@/lib/db/queries";
 import type { Menu } from "@/lib/types";
-import { siteConfig } from "@/config";
 import { HeaderAuth } from "./HeaderAuth";
 import MobileMenu from "./MobileMenu";
 import { MobileSearch } from "./MobileSearch";
@@ -66,4 +66,3 @@ export async function Header() {
     </nav>
   );
 }
-

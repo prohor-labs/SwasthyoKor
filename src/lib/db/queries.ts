@@ -1,21 +1,21 @@
 import {
   and,
-  desc,
-  asc,
   eq,
+  type InferSelectModel,
   ilike,
   inArray,
   or,
   type SQL,
-  type InferSelectModel,
 } from "drizzle-orm";
 import { cache } from "react";
+import type { Collection, Menu, Order, Page, Product } from "@/types";
 import { db } from "./index";
 import {
   blogs,
   collections,
   heroBanners,
   menus,
+  orders,
   pages,
   productCollections,
   type productImages,
@@ -24,9 +24,7 @@ import {
   products,
   type productVariants,
   storeSettings,
-  orders,
 } from "./schema";
-import type { Collection, Menu, Page, Product, Order } from "@/types";
 
 type SortKey = "RELEVANCE" | "BEST_SELLING" | "CREATED_AT" | "PRICE";
 
@@ -342,7 +340,9 @@ export const getCategorySliderCategories = cache(async () => {
     handle: c.handle,
     description: c.description ?? "",
     subtitle: c.subtitle ?? undefined,
-    image: c.image || "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80",
+    image:
+      c.image ||
+      "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80",
     href: `/category/${c.handle}`,
   }));
 });
@@ -422,27 +422,29 @@ export const getMenu = cache(async (handle: string): Promise<Menu[]> => {
   return rows.map((m) => ({ title: m.title, path: m.path }));
 });
 
-export const getPage = cache(async (handle: string): Promise<Page | undefined> => {
-  const row = await db.query.pages.findFirst({
-    where: eq(pages.handle, handle),
-  });
+export const getPage = cache(
+  async (handle: string): Promise<Page | undefined> => {
+    const row = await db.query.pages.findFirst({
+      where: eq(pages.handle, handle),
+    });
 
-  if (!row) return undefined;
+    if (!row) return undefined;
 
-  return {
-    id: row.id,
-    title: row.title,
-    handle: row.handle,
-    body: row.body,
-    bodySummary: row.bodySummary,
-    seo: {
-      title: row.seoTitle ?? row.title,
-      description: row.seoDescription ?? row.bodySummary,
-    },
-    createdAt: row.createdAt.toISOString(),
-    updatedAt: row.updatedAt.toISOString(),
-  };
-});
+    return {
+      id: row.id,
+      title: row.title,
+      handle: row.handle,
+      body: row.body,
+      bodySummary: row.bodySummary,
+      seo: {
+        title: row.seoTitle ?? row.title,
+        description: row.seoDescription ?? row.bodySummary,
+      },
+      createdAt: row.createdAt.toISOString(),
+      updatedAt: row.updatedAt.toISOString(),
+    };
+  },
+);
 
 export const getPages = cache(async (): Promise<Page[]> => {
   const rows = await db.query.pages.findMany();
@@ -508,49 +510,51 @@ export const getBlogs = cache(async (): Promise<BlogPost[]> => {
   }));
 });
 
-export const getBlog = cache(async (slug: string): Promise<BlogPost | undefined> => {
-  const b = await db.query.blogs.findFirst({
-    where: eq(blogs.slug, slug),
-  });
+export const getBlog = cache(
+  async (slug: string): Promise<BlogPost | undefined> => {
+    const b = await db.query.blogs.findFirst({
+      where: eq(blogs.slug, slug),
+    });
 
-  if (!b) return undefined;
+    if (!b) return undefined;
 
-  let relatedProducts: {
-    title: string;
-    handle: string;
-    price: string;
-    image: string;
-  }[] = [];
-  if (b.relatedProductHandles && b.relatedProductHandles.length > 0) {
-    const prods = await loadProducts(
-      inArray(products.handle, b.relatedProductHandles),
-    );
-    relatedProducts = prods.map((p) => ({
-      title: p.title,
-      handle: p.handle,
-      price: `৳${p.priceRange.minVariantPrice.amount}`,
-      image: p.featuredImage?.url || "/icon.png",
-    }));
-  }
+    let relatedProducts: {
+      title: string;
+      handle: string;
+      price: string;
+      image: string;
+    }[] = [];
+    if (b.relatedProductHandles && b.relatedProductHandles.length > 0) {
+      const prods = await loadProducts(
+        inArray(products.handle, b.relatedProductHandles),
+      );
+      relatedProducts = prods.map((p) => ({
+        title: p.title,
+        handle: p.handle,
+        price: `৳${p.priceRange.minVariantPrice.amount}`,
+        image: p.featuredImage?.url || "/icon.png",
+      }));
+    }
 
-  return {
-    id: b.id,
-    slug: b.slug,
-    title: b.title,
-    description: b.description,
-    content: b.content,
-    category: b.category,
-    readTime: b.readTime,
-    author: b.author,
-    coverImage: b.coverImage,
-    tags: b.tags,
-    faqs: b.faqs,
-    relatedProductHandles: b.relatedProductHandles,
-    relatedProducts,
-    publishedAt: b.createdAt.toISOString(),
-    updatedAt: b.updatedAt.toISOString(),
-  };
-});
+    return {
+      id: b.id,
+      slug: b.slug,
+      title: b.title,
+      description: b.description,
+      content: b.content,
+      category: b.category,
+      readTime: b.readTime,
+      author: b.author,
+      coverImage: b.coverImage,
+      tags: b.tags,
+      faqs: b.faqs,
+      relatedProductHandles: b.relatedProductHandles,
+      relatedProducts,
+      publishedAt: b.createdAt.toISOString(),
+      updatedAt: b.updatedAt.toISOString(),
+    };
+  },
+);
 
 export const getStoreSettings = cache(async () => {
   const settings = await db.query.storeSettings.findFirst({

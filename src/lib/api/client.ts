@@ -1,8 +1,7 @@
-import axios from "axios";
 import https from "node:https";
+import axios from "axios";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 const isServer = typeof window === "undefined";
 const httpsAgent =

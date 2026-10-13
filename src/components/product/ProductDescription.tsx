@@ -24,7 +24,6 @@ export function ProductDescription({ product }: { product: Product }) {
   const { addCartItem } = useCart();
   const [quantity, setQuantity] = useState(1);
 
-
   // Initialize selectedOptions with the first variant's options
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
@@ -54,11 +53,13 @@ export function ProductDescription({ product }: { product: Product }) {
             selectedOptions[option.name.toLowerCase()] === option.value,
         );
       }
-      return selectedOptions["পরিমাণ"] === variant.title;
+      return selectedOptions.পরিমাণ === variant.title;
     }) ?? product.variants[0];
 
   // ── Price / availability ──
-  const currentPriceNum = Number(variant?.price.amount ?? product.priceRange.minVariantPrice.amount);
+  const currentPriceNum = Number(
+    variant?.price.amount ?? product.priceRange.minVariantPrice.amount,
+  );
   const compareAtPriceNum = variant?.compareAtPrice?.amount
     ? Number(variant.compareAtPrice.amount)
     : undefined;
@@ -103,33 +104,32 @@ export function ProductDescription({ product }: { product: Product }) {
               প্রোডাক্ট কোড: {productSku}
             </span>
             <span
-                className={cn(
-                  "font-bold flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px]",
-                  !isAvailable
-                    ? "bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-900"
-                    : isLowStock
-                      ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-900 animate-pulse"
-                      : "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900",
-                )}
-              >
-                <span
-                  className={cn(
-                    "size-2 rounded-full",
-                    !isAvailable
-                      ? "bg-rose-500"
-                      : isLowStock
-                        ? "bg-amber-500"
-                        : "bg-emerald-500 animate-pulse",
-                  )}
-                />
-                {!isAvailable
-                  ? "স্টক শেষ (Out of Stock)"
+              className={cn(
+                "font-bold flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px]",
+                !isAvailable
+                  ? "bg-rose-50 text-rose-600 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-900"
                   : isLowStock
-                    ? `⚡ মাত্র ${stockQuantity}টি বাকি আছে!`
-                    : `ইন স্টক (${stockQuantity}টি স্টকে আছে)`}
-              </span>
+                    ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-900 animate-pulse"
+                    : "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900",
+              )}
+            >
+              <span
+                className={cn(
+                  "size-2 rounded-full",
+                  !isAvailable
+                    ? "bg-rose-500"
+                    : isLowStock
+                      ? "bg-amber-500"
+                      : "bg-emerald-500 animate-pulse",
+                )}
+              />
+              {!isAvailable
+                ? "স্টক শেষ (Out of Stock)"
+                : isLowStock
+                  ? `⚡ মাত্র ${stockQuantity}টি বাকি আছে!`
+                  : `ইন স্টক (${stockQuantity}টি স্টকে আছে)`}
+            </span>
           </div>
-
 
           {/* Product Title */}
           <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-foreground leading-snug">
@@ -200,44 +200,43 @@ export function ProductDescription({ product }: { product: Product }) {
 
         {/* ──── Section 3: Quantity Stepper ──── */}
         <div className="flex items-center gap-3 pt-1">
-              <span className="text-xs font-bold text-foreground">অর্ডার সংখ্যা:</span>
-              <div className="flex items-center rounded-xl border border-border bg-card p-1 shadow-2xs">
-                <button
-                  type="button"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  disabled={!isAvailable || quantity <= 1}
-                  className="flex size-7 items-center justify-center rounded-lg hover:bg-muted active:scale-95 disabled:opacity-40 cursor-pointer"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="size-3.5 text-foreground" />
-                </button>
-                <span className="w-9 text-center text-xs font-bold text-foreground font-mono">
-                  {quantity}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setQuantity((q) => Math.min(Math.max(1, stockQuantity), q + 1))
-                  }
-                  disabled={!isAvailable || quantity >= stockQuantity}
-                  className="flex size-7 items-center justify-center rounded-lg hover:bg-muted active:scale-95 disabled:opacity-40 cursor-pointer"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="size-3.5 text-foreground" />
-                </button>
-              </div>
-              {quantity > 1 && (
-                <span className="text-xs text-muted-foreground font-medium">
-                  মোট: ৳{totalPrice.toLocaleString("bn-BD")}
-                </span>
-              )}
-              {isLowStock && (
-                <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-                  (সর্বোচ্চ {stockQuantity}টি নিতে পারবেন)
-                </span>
-              )}
-            </div>
-
+          <span className="text-xs font-bold text-foreground">অর্ডার সংখ্যা:</span>
+          <div className="flex items-center rounded-xl border border-border bg-card p-1 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              disabled={!isAvailable || quantity <= 1}
+              className="flex size-7 items-center justify-center rounded-lg hover:bg-muted active:scale-95 disabled:opacity-40 cursor-pointer"
+              aria-label="Decrease quantity"
+            >
+              <Minus className="size-3.5 text-foreground" />
+            </button>
+            <span className="w-9 text-center text-xs font-bold text-foreground font-mono">
+              {quantity}
+            </span>
+            <button
+              type="button"
+              onClick={() =>
+                setQuantity((q) => Math.min(Math.max(1, stockQuantity), q + 1))
+              }
+              disabled={!isAvailable || quantity >= stockQuantity}
+              className="flex size-7 items-center justify-center rounded-lg hover:bg-muted active:scale-95 disabled:opacity-40 cursor-pointer"
+              aria-label="Increase quantity"
+            >
+              <Plus className="size-3.5 text-foreground" />
+            </button>
+          </div>
+          {quantity > 1 && (
+            <span className="text-xs text-muted-foreground font-medium">
+              মোট: ৳{totalPrice.toLocaleString("bn-BD")}
+            </span>
+          )}
+          {isLowStock && (
+            <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+              (সর্বোচ্চ {stockQuantity}টি নিতে পারবেন)
+            </span>
+          )}
+        </div>
 
         {/* ──── Section 4: Description ──── */}
         {product.descriptionHtml ? (
@@ -250,7 +249,6 @@ export function ProductDescription({ product }: { product: Product }) {
             {product.description}
           </div>
         ) : null}
-
 
         {/* ──── Section 6: Desktop CTAs ──── */}
         <div className="hidden lg:flex flex-col gap-2.5 pt-2">

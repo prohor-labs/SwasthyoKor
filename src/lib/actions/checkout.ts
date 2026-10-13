@@ -11,8 +11,8 @@ import {
   carts,
   coupons,
   orders,
-  productVariants,
   products,
+  productVariants,
 } from "../db/schema";
 
 export async function checkout(): Promise<void> {

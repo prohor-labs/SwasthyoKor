@@ -40,7 +40,6 @@ export const PRODUCT_UNITS = [
 
 export type ProductUnit = (typeof PRODUCT_UNITS)[number];
 
-
 export const PRODUCT_UNIT_DETAILS: Record<
   ProductUnit,
   { labelBn: string; labelEn: string; category: "count" | "weight" | "volume" }
@@ -119,9 +118,7 @@ export function formatPackTitle(
   unit: ProductUnit = "piece",
 ): string {
   const num =
-    typeof amount === "string"
-      ? parseFloat(toEnDigits(amount)) || 0
-      : amount;
+    typeof amount === "string" ? parseFloat(toEnDigits(amount)) || 0 : amount;
   if (!num || num <= 0) return "";
 
   if (unit === "jar") {
@@ -207,7 +204,7 @@ export function parseAmountFromTitle(
   const match = enTitle.match(/([0-9]+(?:\.[0-9]+)?)/);
   if (!match) return getDefaultAmountForUnit(unit);
   const val = parseFloat(match[1]);
-  if (isNaN(val)) return getDefaultAmountForUnit(unit);
+  if (Number.isNaN(val)) return getDefaultAmountForUnit(unit);
 
   if (
     unit === "gram" &&
@@ -248,7 +245,7 @@ export function calculateTotalStock(
   let totalRawAmount = 0;
   for (const v of variants) {
     const amt =
-      v.amount !== undefined && v.amount !== null && !isNaN(v.amount)
+      v.amount !== undefined && v.amount !== null && !Number.isNaN(v.amount)
         ? v.amount
         : v.title
           ? parseAmountFromTitle(v.title, unit)

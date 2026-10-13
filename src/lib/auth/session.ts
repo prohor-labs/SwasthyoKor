@@ -22,7 +22,9 @@ export async function createSession(
   // Clean up expired sessions for this user
   await db
     .delete(sessions)
-    .where(and(eq(sessions.userId, userId), lt(sessions.expiresAt, new Date())));
+    .where(
+      and(eq(sessions.userId, userId), lt(sessions.expiresAt, new Date())),
+    );
 
   // Clean up previous session token if present
   if (requestMeta?.oldToken) {

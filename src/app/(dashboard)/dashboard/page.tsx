@@ -1,8 +1,8 @@
+import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { BagShopping, Box, CheckCircle, Receipt } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { eq } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth/session";
 import { db } from "@/lib/db";
 import { getCart } from "@/lib/db/queries";

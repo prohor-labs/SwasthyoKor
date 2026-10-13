@@ -7,19 +7,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
-import { updateProductAction } from "@/lib/actions/admin";
-import { compressImageClient } from "@/lib/image";
-import {
-  PRODUCT_UNITS,
-  formatPackTitle,
-  getDefaultAmountForUnit,
-  getProductUnitCategory,
-  getProductUnitLabel,
-  parseAmountFromTitle,
-  type ProductUnit,
-} from "@/lib/types";
 import {
   Select,
   SelectContent,
@@ -29,6 +16,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
+import { Textarea } from "@/components/ui/textarea";
+import { updateProductAction } from "@/lib/actions/admin";
+import { compressImageClient } from "@/lib/image";
+import {
+  formatPackTitle,
+  getDefaultAmountForUnit,
+  getProductUnitCategory,
+  getProductUnitLabel,
+  PRODUCT_UNITS,
+  type ProductUnit,
+  parseAmountFromTitle,
+} from "@/lib/types";
 
 export interface ProductVariantItem {
   id?: string;
@@ -68,7 +68,8 @@ export function EditProductDialog({
   const [error, setError] = useState<string | null>(null);
 
   const initialRootUnit: ProductUnit =
-    (product.unit as ProductUnit) && PRODUCT_UNITS.includes(product.unit as ProductUnit)
+    (product.unit as ProductUnit) &&
+    PRODUCT_UNITS.includes(product.unit as ProductUnit)
       ? (product.unit as ProductUnit)
       : "jar";
 
@@ -84,13 +85,15 @@ export function EditProductDialog({
       return product.inventoryQuantity;
     }
     if (product.variants && product.variants.length > 0) {
-      return product.variants.reduce((acc, v) => {
-        const amt =
-          v.amount !== undefined && v.amount !== null
-            ? v.amount
-            : parseAmountFromTitle(v.title, initialUnit);
-        return Math.max(acc, (v.inventoryQuantity || 0) * (amt || 1));
-      }, 0) || 100;
+      return (
+        product.variants.reduce((acc, v) => {
+          const amt =
+            v.amount !== undefined && v.amount !== null
+              ? v.amount
+              : parseAmountFromTitle(v.title, initialUnit);
+          return Math.max(acc, (v.inventoryQuantity || 0) * (amt || 1));
+        }, 0) || 100
+      );
     }
     return 100;
   };
@@ -108,7 +111,10 @@ export function EditProductDialog({
     product.allowCoupons !== false ? "true" : "false",
   );
 
-  const getInitialVariants = (unitToUse: ProductUnit, stock: number): ProductVariantItem[] => {
+  const getInitialVariants = (
+    unitToUse: ProductUnit,
+    stock: number,
+  ): ProductVariantItem[] => {
     if (product.variants && product.variants.length > 0) {
       return product.variants.map((v) => {
         const amt =
@@ -148,7 +154,8 @@ export function EditProductDialog({
     setOpen(isOpen);
     if (isOpen) {
       const u =
-        (product.unit as ProductUnit) && PRODUCT_UNITS.includes(product.unit as ProductUnit)
+        (product.unit as ProductUnit) &&
+        PRODUCT_UNITS.includes(product.unit as ProductUnit)
           ? (product.unit as ProductUnit)
           : "jar";
       setRootUnit(u);
@@ -178,7 +185,10 @@ export function EditProductDialog({
     setRootUnit(newUnit);
     setVariants((prev) =>
       prev.map((v) => {
-        const amt = v.amount && v.amount > 0 ? v.amount : getDefaultAmountForUnit(newUnit);
+        const amt =
+          v.amount && v.amount > 0
+            ? v.amount
+            : getDefaultAmountForUnit(newUnit);
         return {
           ...v,
           unit: newUnit,
@@ -242,7 +252,7 @@ export function EditProductDialog({
     );
   };
 
-  const unitCategory = getProductUnitCategory(rootUnit);
+  const _unitCategory = getProductUnitCategory(rootUnit);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -295,7 +305,6 @@ export function EditProductDialog({
       }
     });
   };
-
 
   return (
     <ResponsiveDialog
@@ -474,7 +483,9 @@ export function EditProductDialog({
                 <SelectContent>
                   <SelectGroup>
                     <SelectItem value="true">ইন স্টক (In Stock)</SelectItem>
-                    <SelectItem value="false">স্টক শেষ (Out of Stock)</SelectItem>
+                    <SelectItem value="false">
+                      স্টক শেষ (Out of Stock)
+                    </SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -515,7 +526,8 @@ export function EditProductDialog({
                   ভ্যারিয়েন্ট / প্যাকসমূহ ({variants.length})
                 </span>
                 <span className="text-[11px] text-muted-foreground font-medium">
-                  (মোট {totalStock} {getProductUnitLabel(rootUnit)} থেকে অটো স্টক হিসাব হবে)
+                  (মোট {totalStock} {getProductUnitLabel(rootUnit)} থেকে অটো স্টক
+                  হিসাব হবে)
                 </span>
               </div>
               <Button
@@ -550,7 +562,8 @@ export function EditProductDialog({
                       </span>
                       {/* Live Calculated Pack Stock Badge */}
                       <span className="inline-flex items-center text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-                        ⚡ অটো স্টক: {getAutoPackStock(v.amount, totalStock)}টি প্যাক
+                        ⚡ অটো স্টক: {getAutoPackStock(v.amount, totalStock)}টি
+                        প্যাক
                       </span>
                     </div>
                     {variants.length > 1 && (

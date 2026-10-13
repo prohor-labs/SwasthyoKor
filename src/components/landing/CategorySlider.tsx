@@ -86,7 +86,9 @@ export function CategorySlider({
         >
           {categories.map((category, index) => {
             const displayName = category.name || category.title || "ক্যাটাগরি";
-            const displayImage = category.image || "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80";
+            const displayImage =
+              category.image ||
+              "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80";
 
             return (
               <Link

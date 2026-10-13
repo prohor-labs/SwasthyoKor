@@ -20,7 +20,8 @@ export const siteConfig: SiteConfig = {
   name: "স্বাস্থ্যকর",
   shortName: "SwasthyoKor",
   companyName: "স্বাস্থ্যকর (SwasthyoKor)",
-  description: "The Symbol of Faith and Trust. ১০০% খাঁটি সুন্দরবন মধু, কাঠের ঘানি ভাঙা তেল, গাওয়া ঘি ও অর্গানিক সুপারফুড।",
+  description:
+    "The Symbol of Faith and Trust. ১০০% খাঁটি সুন্দরবন মধু, কাঠের ঘানি ভাঙা তেল, গাওয়া ঘি ও অর্গানিক সুপারফুড।",
   url: process.env.NEXT_PUBLIC_APP_URL || "https://swasthyokor.prohor.dev",
   supportEmail: "support@swasthyokor.com",
   supportPhone: "01812345678",
@@ -28,7 +29,8 @@ export const siteConfig: SiteConfig = {
   address: "বাড়ি ১২, রোড ৪, ধানমন্ডি, ঢাকা - ১২০৫",
   meta: {
     title: "স্বাস্থ্যকর | The Symbol of Faith and Trust",
-    description: "খাঁটি সুন্দরবন মধু, ঘানি ভাঙা সরিষার তেল, গাওয়া ঘি ও সেরা অর্গানিক সুপারফুডের বিশ্বস্ত শপ।",
+    description:
+      "খাঁটি সুন্দরবন মধু, ঘানি ভাঙা সরিষার তেল, গাওয়া ঘি ও সেরা অর্গানিক সুপারফুডের বিশ্বস্ত শপ।",
     ogImage: "/icon.png",
     keywords: [
       "স্বাস্থ্যকর",

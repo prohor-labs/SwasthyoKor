@@ -64,7 +64,9 @@ export function ResponsiveDialog({
             {!React.isValidElement(trigger) ? trigger : undefined}
           </DrawerTrigger>
         )}
-        <DrawerContent className={cn("max-h-[92vh] flex flex-col rounded-t-2xl", className)}>
+        <DrawerContent
+          className={cn("max-h-[92vh] flex flex-col rounded-t-2xl", className)}
+        >
           <div className="overflow-y-auto flex flex-col gap-3.5 px-3.5 sm:px-6 pb-5 pt-1.5">
             {(title || description) && (
               <DrawerHeader className="text-left sm:text-center px-0 pt-1 pb-1.5 border-b border-border/40">

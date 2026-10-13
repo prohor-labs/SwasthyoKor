@@ -2,7 +2,6 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { Check, SearchNormal, Trash2 } from "@/components/icons";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,7 +17,11 @@ import {
   deleteProductAction,
   toggleProductAvailabilityAction,
 } from "@/lib/actions/admin";
-import { calculateTotalStock, getProductUnitLabel } from "@/lib/types";
+import {
+  calculateTotalStock,
+  getProductUnitLabel,
+  type ProductUnit,
+} from "@/lib/types";
 import { EditProductDialog, type EditProductItem } from "./EditProductDialog";
 import { QuickList, type QuickListItem } from "./QuickList";
 
@@ -166,11 +169,13 @@ export function ProductsList({
           ? [
               {
                 text: `${item.variants.length}টি প্যাক (${item.variants
-                  .map((v) => `${v.title || "প্যাক"}: ${v.inventoryQuantity ?? 0}`)
+                  .map(
+                    (v) => `${v.title || "প্যাক"}: ${v.inventoryQuantity ?? 0}`,
+                  )
                   .join(", ")}) — মোট স্টক: ${
                   calculateTotalStock(
                     item.variants,
-                    (item.unit as any) || "gram",
+                    (item.unit as ProductUnit) || "gram",
                   ).totalBulkFormatted
                 }`,
                 variant: "secondary" as const,
@@ -189,7 +194,6 @@ export function ProductsList({
 
       actions: (
         <div className="flex items-center gap-1.5 flex-wrap justify-end">
-
           {/* Quick Stock Toggle Button */}
           <Button
             type="button"

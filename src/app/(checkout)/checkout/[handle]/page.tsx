@@ -121,7 +121,6 @@ export default async function CheckoutProductPage(props: {
                   </div>
                 </div>
 
-
                 <Separator />
 
                 {/* Price calculations */}

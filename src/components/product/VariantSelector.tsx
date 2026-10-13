@@ -59,7 +59,9 @@ export function VariantSelector({
           </dt>
           <dd className="flex flex-wrap gap-2.5">
             {option.values.map((value) => {
-              const optionNameLowerCase = (option.name || "পরিমাণ").toLowerCase();
+              const optionNameLowerCase = (
+                option.name || "পরিমাণ"
+              ).toLowerCase();
 
               const currentCombination = {
                 ...selectedOptions,
@@ -136,8 +138,8 @@ export function VariantSelector({
           const isAvailable =
             v.availableForSale && (v.inventoryQuantity ?? 15) > 0;
           const isActive =
-            selectedOptions["পরিমাণ"] === v.title ||
-            (!selectedOptions["পরিমাণ"] && variants[0]?.id === v.id);
+            selectedOptions.পরিমাণ === v.title ||
+            (!selectedOptions.পরিমাণ && variants[0]?.id === v.id);
 
           return (
             <button

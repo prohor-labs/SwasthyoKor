@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { asc, desc } from "drizzle-orm";
 import { CollectionsTable, CreateCollectionDialog } from "@/components/admin";
 import { db } from "@/lib/db";
 import { collections } from "@/lib/db/schema";

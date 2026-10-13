@@ -12,11 +12,10 @@ export async function PATCH(
 
     const cart = await updateItemQuantityInCart(variantId, type);
     return NextResponse.json({ cart });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message || "কার্ট আপডেট করতে সমস্যা হয়েছে।" },
-      { status: 500 },
-    );
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "কার্ট আপডেট করতে সমস্যা হয়েছে।";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -28,10 +27,9 @@ export async function DELETE(
     const { variantId } = await params;
     const cart = await updateItemQuantityInCart(variantId, "delete");
     return NextResponse.json({ cart });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message || "পণ্যটি কার্ট থেকে সরাতে সমস্যা হয়েছে।" },
-      { status: 500 },
-    );
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "পণ্যটি কার্ট থেকে সরাতে সমস্যা হয়েছে।";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

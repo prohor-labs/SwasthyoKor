@@ -7,7 +7,6 @@ import { db } from "../db";
 import {
   blogs,
   collections,
-  coupons,
   heroBanners,
   orders,
   productCollections,
@@ -15,7 +14,6 @@ import {
   products,
   productVariants,
   storeSettings,
-  users,
 } from "../db/schema";
 
 async function requireAdmin() {
@@ -37,7 +35,10 @@ export async function updateOrderStatusAction(orderId: string, status: string) {
     revalidatePath("/admin/orders");
     return { success: true, error: "" };
   } catch (err: any) {
-    return { success: false, error: err.message || "স্ট্যাটাস পরিবর্তন ব্যর্থ হয়েছে।" };
+    return {
+      success: false,
+      error: err.message || "স্ট্যাটাস পরিবর্তন ব্যর্থ হয়েছে।",
+    };
   }
 }
 
@@ -45,7 +46,9 @@ export async function createProductAction(formData: FormData) {
   try {
     await requireAdmin();
     const title = (formData.get("title") as string)?.trim();
-    const handle = (formData.get("handle") as string)?.trim() || title?.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const handle =
+      (formData.get("handle") as string)?.trim() ||
+      title?.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const description = (formData.get("description") as string)?.trim() || "";
     const price = Number(formData.get("price") || 0);
     const imageUrl = (formData.get("imageUrl") as string)?.trim();
@@ -144,7 +147,9 @@ export async function updateProductAction(formData: FormData) {
               .set({
                 title: v.title,
                 priceAmount: Number(v.price || 0),
-                compareAtPrice: v.compareAtPrice ? Number(v.compareAtPrice) : null,
+                compareAtPrice: v.compareAtPrice
+                  ? Number(v.compareAtPrice)
+                  : null,
                 inventoryQuantity: Number(v.inventoryQuantity ?? 15),
                 unit: v.unit || "packet",
               })
@@ -155,7 +160,9 @@ export async function updateProductAction(formData: FormData) {
               productId: id,
               title: v.title,
               priceAmount: Number(v.price || 0),
-              compareAtPrice: v.compareAtPrice ? Number(v.compareAtPrice) : null,
+              compareAtPrice: v.compareAtPrice
+                ? Number(v.compareAtPrice)
+                : null,
               inventoryQuantity: Number(v.inventoryQuantity ?? 15),
               unit: v.unit || "packet",
               availableForSale: true,
@@ -168,7 +175,9 @@ export async function updateProductAction(formData: FormData) {
     }
 
     if (collectionId !== null) {
-      await db.delete(productCollections).where(eq(productCollections.productId, id));
+      await db
+        .delete(productCollections)
+        .where(eq(productCollections.productId, id));
       if (collectionId) {
         await db.insert(productCollections).values({
           productId: id,
@@ -185,7 +194,10 @@ export async function updateProductAction(formData: FormData) {
   }
 }
 
-export async function toggleProductAvailabilityAction(id: string, available: boolean) {
+export async function toggleProductAvailabilityAction(
+  id: string,
+  available: boolean,
+) {
   try {
     await requireAdmin();
     await db
@@ -272,7 +284,10 @@ export async function updateCollectionAction(formData: FormData) {
   }
 }
 
-export async function toggleCollectionHomepageAction(id: string, showOnHomepage: boolean) {
+export async function toggleCollectionHomepageAction(
+  id: string,
+  showOnHomepage: boolean,
+) {
   try {
     await requireAdmin();
     await db
@@ -307,7 +322,8 @@ export async function createBlogAction(formData: FormData) {
     const slug = (formData.get("slug") as string)?.trim();
     const description = (formData.get("description") as string)?.trim() || "";
     const content = (formData.get("content") as string)?.trim() || "";
-    const category = (formData.get("category") as string)?.trim() || "স্বাস্থ্য ও পুষ্টি";
+    const category =
+      (formData.get("category") as string)?.trim() || "স্বাস্থ্য ও পুষ্টি";
     const coverImage = (formData.get("coverImage") as string)?.trim() || "";
 
     if (!title || !slug) {
@@ -342,7 +358,8 @@ export async function updateBlogAction(formData: FormData) {
     const slug = (formData.get("slug") as string)?.trim();
     const description = (formData.get("description") as string)?.trim() || "";
     const content = (formData.get("content") as string)?.trim() || "";
-    const category = (formData.get("category") as string)?.trim() || "স্বাস্থ্য ও পুষ্টি";
+    const category =
+      (formData.get("category") as string)?.trim() || "স্বাস্থ্য ও পুষ্টি";
     const coverImage = (formData.get("coverImage") as string)?.trim() || "";
 
     if (!id || !title || !slug) {
@@ -423,7 +440,8 @@ export async function updateHeroBannerAction(formData: FormData) {
     const subtitle = (formData.get("subtitle") as string)?.trim() || "";
     const link = (formData.get("link") as string)?.trim() || "/search";
     const image = (formData.get("image") as string)?.trim() || "";
-    const accentColor = (formData.get("accentColor") as string)?.trim() || "text-amber-400";
+    const accentColor =
+      (formData.get("accentColor") as string)?.trim() || "text-amber-400";
 
     if (!id) {
       return { success: false, error: "ব্যানার আইডি প্রয়োজন।" };
@@ -472,7 +490,9 @@ export async function updateStoreSettingsAction(formData: FormData) {
     const storeAddress = (formData.get("storeAddress") as string)?.trim();
     const insideDhakaFee = Number(formData.get("insideDhakaFee") || 60);
     const outsideDhakaFee = Number(formData.get("outsideDhakaFee") || 120);
-    const freeShippingMinAmount = Number(formData.get("freeShippingMinAmount") || 1500);
+    const freeShippingMinAmount = Number(
+      formData.get("freeShippingMinAmount") || 1500,
+    );
 
     await db
       .insert(storeSettings)

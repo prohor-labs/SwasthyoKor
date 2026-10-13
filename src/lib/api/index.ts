@@ -1,5 +1,5 @@
-import { api } from "./client";
 import type { Cart, Collection, Menu, Order, Page, Product } from "@/types";
+import { api } from "./client";
 
 export interface User {
   id: string;
@@ -30,7 +30,11 @@ export const authApi = {
 };
 
 export const shopApi = {
-  getProducts: async (params?: { query?: string; sortKey?: string; reverse?: boolean }): Promise<Product[]> => {
+  getProducts: async (params?: {
+    query?: string;
+    sortKey?: string;
+    reverse?: boolean;
+  }): Promise<Product[]> => {
     const res = await api.get("/shop/products", { params });
     return res.data;
   },
@@ -54,8 +58,13 @@ export const shopApi = {
     const res = await api.get(`/shop/collections/${handle}`);
     return res.data;
   },
-  getCollectionProducts: async (handle: string, params?: { sortKey?: string; reverse?: boolean }): Promise<Product[]> => {
-    const res = await api.get(`/shop/collections/${handle}/products`, { params });
+  getCollectionProducts: async (
+    handle: string,
+    params?: { sortKey?: string; reverse?: boolean },
+  ): Promise<Product[]> => {
+    const res = await api.get(`/shop/collections/${handle}/products`, {
+      params,
+    });
     return res.data;
   },
   getHomepageCategories: async () => {
@@ -102,7 +111,10 @@ export const cartApi = {
     if (!res.ok) return { cart: null };
     return res.json();
   },
-  addItem: async (variantId: string, quantity = 1): Promise<{ cart: Cart | null }> => {
+  addItem: async (
+    variantId: string,
+    quantity = 1,
+  ): Promise<{ cart: Cart | null }> => {
     const res = await fetch("/api/cart/items", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -110,7 +122,10 @@ export const cartApi = {
     });
     return res.json();
   },
-  updateQuantity: async (variantId: string, type: "plus" | "minus" | "delete"): Promise<{ cart: Cart | null }> => {
+  updateQuantity: async (
+    variantId: string,
+    type: "plus" | "minus" | "delete",
+  ): Promise<{ cart: Cart | null }> => {
     const res = await fetch(`/api/cart/items/${variantId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -131,7 +146,16 @@ export const ordersApi = {
     const res = await api.get(`/orders/${id}`);
     return res.data;
   },
-  checkoutCart: async (data: { address?: string; phone?: string; customerName?: string }): Promise<{ paymentUrl?: string; orderId: string; redirectUrl?: string; success?: boolean }> => {
+  checkoutCart: async (data: {
+    address?: string;
+    phone?: string;
+    customerName?: string;
+  }): Promise<{
+    paymentUrl?: string;
+    orderId: string;
+    redirectUrl?: string;
+    success?: boolean;
+  }> => {
     const res = await api.post("/orders/checkout", data);
     return res.data;
   },
@@ -142,7 +166,12 @@ export const ordersApi = {
     phone?: string;
     address?: string;
     couponCode?: string;
-  }): Promise<{ paymentUrl?: string; orderId: string; redirectUrl?: string; success?: boolean }> => {
+  }): Promise<{
+    paymentUrl?: string;
+    orderId: string;
+    redirectUrl?: string;
+    success?: boolean;
+  }> => {
     const res = await api.post("/orders/checkout/direct", data);
     return res.data;
   },
@@ -150,24 +179,33 @@ export const ordersApi = {
 
 export const adminApi = {
   getProducts: async () => (await api.get("/admin/products")).data,
-  createProduct: async (data: any) => (await api.post("/admin/products", data)).data,
-  deleteProduct: async (id: string) => (await api.delete(`/admin/products/${id}`)).data,
+  createProduct: async (data: any) =>
+    (await api.post("/admin/products", data)).data,
+  deleteProduct: async (id: string) =>
+    (await api.delete(`/admin/products/${id}`)).data,
   toggleProductAvailability: async (id: string, available: boolean) =>
     (await api.patch(`/admin/products/${id}/availability`, { available })).data,
   getOrders: async () => (await api.get("/admin/orders")).data,
   updateOrderStatus: async (id: string, status: string) =>
     (await api.patch(`/admin/orders/${id}/status`, { status })).data,
   getCollections: async () => (await api.get("/admin/collections")).data,
-  createCollection: async (data: any) => (await api.post("/admin/collections", data)).data,
-  deleteCollection: async (id: string) => (await api.delete(`/admin/collections/${id}`)).data,
+  createCollection: async (data: any) =>
+    (await api.post("/admin/collections", data)).data,
+  deleteCollection: async (id: string) =>
+    (await api.delete(`/admin/collections/${id}`)).data,
   getCustomers: async () => (await api.get("/admin/customers")).data,
   toggleCustomerBan: async (id: string, isBanned: boolean) =>
     (await api.patch(`/admin/customers/${id}/ban`, { isBanned })).data,
   getCoupons: async () => (await api.get("/admin/coupons")).data,
-  createCoupon: async (data: any) => (await api.post("/admin/coupons", data)).data,
-  deleteCoupon: async (id: string) => (await api.delete(`/admin/coupons/${id}`)).data,
+  createCoupon: async (data: any) =>
+    (await api.post("/admin/coupons", data)).data,
+  deleteCoupon: async (id: string) =>
+    (await api.delete(`/admin/coupons/${id}`)).data,
   getBanners: async () => (await api.get("/admin/banners")).data,
-  createBanner: async (data: any) => (await api.post("/admin/banners", data)).data,
-  deleteBanner: async (id: string) => (await api.delete(`/admin/banners/${id}`)).data,
-  updateSettings: async (data: any) => (await api.post("/admin/settings", data)).data,
+  createBanner: async (data: any) =>
+    (await api.post("/admin/banners", data)).data,
+  deleteBanner: async (id: string) =>
+    (await api.delete(`/admin/banners/${id}`)).data,
+  updateSettings: async (data: any) =>
+    (await api.post("/admin/settings", data)).data,
 };

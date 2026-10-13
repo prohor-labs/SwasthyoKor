@@ -187,7 +187,9 @@ export function DirectCheckoutForm({
                 <div className="flex gap-2">
                   <Input
                     value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setCouponCode(e.target.value.toUpperCase())
+                    }
                     placeholder="প্রোমোকোড লিখুন (যেমন: SWAS10)"
                     className="rounded-md sm:rounded-lg h-9 text-xs font-mono uppercase bg-background"
                   />

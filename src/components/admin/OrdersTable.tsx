@@ -9,14 +9,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   Select,
   SelectContent,
   SelectGroup,
@@ -24,6 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { updateOrderStatusAction } from "@/lib/actions/admin";
 
 interface OrderItem {
@@ -36,7 +36,7 @@ interface OrderItem {
   email?: string | null;
 }
 
-function OrdersTable({ orders }: { orders: OrderItem[] }) {
+export function OrdersTable({ orders }: { orders: OrderItem[] }) {
   const [isPending, startTransition] = useTransition();
 
   const handleStatusChange = (orderId: string, status: string) => {
@@ -121,7 +121,10 @@ function OrdersTable({ orders }: { orders: OrderItem[] }) {
                         if (val) handleStatusChange(order.id, val);
                       }}
                     >
-                      <SelectTrigger size="sm" className="w-32 h-8 text-xs font-medium">
+                      <SelectTrigger
+                        size="sm"
+                        className="w-32 h-8 text-xs font-medium"
+                      >
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent align="end">

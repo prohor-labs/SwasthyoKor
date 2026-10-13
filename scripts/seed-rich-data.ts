@@ -1,9 +1,9 @@
-import { config } from "dotenv";
 import { resolve } from "node:path";
-import postgres from "postgres";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { hash } from "@node-rs/argon2";
+import { config } from "dotenv";
 import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 // Load client environment
 config({ path: resolve(process.cwd(), "apps/client/.env.local") });
@@ -13,17 +13,15 @@ config({ path: resolve(process.cwd(), ".env") });
 
 import * as schema from "../apps/client/src/lib/db/schema.js";
 import {
-  users,
   accounts,
-  heroBanners,
   blogs,
+  collections,
   coupons,
+  heroBanners,
   orders,
   productReviews,
   storeSettings,
-  products,
-  collections,
-  productCollections,
+  users,
 } from "../apps/client/src/lib/db/schema.js";
 
 const dbUrl = process.env.DATABASE_URL;
@@ -36,7 +34,9 @@ const client = postgres(dbUrl, { prepare: false });
 const db = drizzle(client, { schema });
 
 async function seedRichData() {
-  console.log("🌱 Starting rich mock data seeding via scripts/seed-rich-data.ts...");
+  console.log(
+    "🌱 Starting rich mock data seeding via scripts/seed-rich-data.ts...",
+  );
 
   // 1. Password hash for users
   // admin: mdrokonuzzaman45@gmail.com / mdrokonuzzaman45
@@ -63,7 +63,8 @@ async function seedRichData() {
       phone: "01712345678",
       isAdmin: true,
       emailVerified: true,
-      avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
       passwordHash: adminPasswordHash,
     },
     {
@@ -72,7 +73,8 @@ async function seedRichData() {
       phone: "01819876543",
       isAdmin: true,
       emailVerified: true,
-      avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
       passwordHash: adminPasswordHash,
     },
     {
@@ -81,7 +83,8 @@ async function seedRichData() {
       phone: "01987654321",
       isAdmin: false,
       emailVerified: true,
-      avatarUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80",
       passwordHash: defaultUserPasswordHash,
     },
     {
@@ -90,7 +93,8 @@ async function seedRichData() {
       phone: "01623456789",
       isAdmin: false,
       emailVerified: true,
-      avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
       passwordHash: defaultUserPasswordHash,
     },
     {
@@ -99,7 +103,8 @@ async function seedRichData() {
       phone: "01755667788",
       isAdmin: false,
       emailVerified: true,
-      avatarUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=80",
+      avatarUrl:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop&q=80",
       passwordHash: defaultUserPasswordHash,
     },
   ];
@@ -107,7 +112,7 @@ async function seedRichData() {
   const seededUsers: Record<string, string> = {};
 
   for (const u of mockUsersList) {
-    let existingUser = await db.query.users.findFirst({
+    const existingUser = await db.query.users.findFirst({
       where: eq(users.email, u.email),
     });
 
@@ -202,20 +207,24 @@ async function seedRichData() {
     {
       title: "১০০% খাঁটি সুন্দরবনের কাঁচা মধু",
       highlight: "প্রকৃতির খাঁটি উপহার",
-      subtitle: "সরাসরি সুন্দরবনের অভিজ্ঞ মৌয়ালদের কাছ থেকে সংগৃহীত। কোনো ভেজাল বা কৃত্রিম সুগারমুক্ত।",
+      subtitle:
+        "সরাসরি সুন্দরবনের অভিজ্ঞ মৌয়ালদের কাছ থেকে সংগৃহীত। কোনো ভেজাল বা কৃত্রিম সুগারমুক্ত।",
       link: "/search/organic-essentials",
       accentColor: "text-amber-400",
-      image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=1600&auto=format&fit=crop&q=85",
+      image:
+        "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=1600&auto=format&fit=crop&q=85",
       position: 0,
       active: true,
     },
     {
       title: "ঘানি ভাঙা সরিষা ও গাওয়া ঘি",
       highlight: "গ্রামের আদি ঘ্রাণ ও স্বাদ",
-      subtitle: "কাঠের ঘানিতে ভাঙা খাঁটি সরিষার তেল ও সিরাজগঞ্জের দেশি গরুর দুধের প্রিমিয়াম গাওয়া ঘি।",
+      subtitle:
+        "কাঠের ঘানিতে ভাঙা খাঁটি সরিষার তেল ও সিরাজগঞ্জের দেশি গরুর দুধের প্রিমিয়াম গাওয়া ঘি।",
       link: "/search/oils-and-ghee",
       accentColor: "text-emerald-400",
-      image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=1600&auto=format&fit=crop&q=85",
+      image:
+        "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=1600&auto=format&fit=crop&q=85",
       position: 1,
       active: true,
     },
@@ -225,7 +234,8 @@ async function seedRichData() {
       subtitle: "চিয়া সিড, স্পিরুলিনা, মোরিঙ্গা এবং প্রিমিয়াম রোস্টেড কাজু-কাঠবাদাম।",
       link: "/search/superfoods-wellness",
       accentColor: "text-teal-400",
-      image: "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=1600&auto=format&fit=crop&q=85",
+      image:
+        "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=1600&auto=format&fit=crop&q=85",
       position: 2,
       active: true,
     },
@@ -291,11 +301,13 @@ async function seedRichData() {
     {
       slug: "benefits-of-raw-sundarban-honey",
       title: "খাঁটি সুন্দরবন মধুর বিস্ময়কর উপকারিতা ও চেনার সহজ উপায়",
-      description: "প্রাকৃতিক কাঁচা মধুর ঔষধি গুণাগুণ এবং নকল মধুর হাত থেকে নিজেকে বাঁচানোর বৈজ্ঞানিক উপায়গুলো জানুন।",
+      description:
+        "প্রাকৃতিক কাঁচা মধুর ঔষধি গুণাগুণ এবং নকল মধুর হাত থেকে নিজেকে বাঁচানোর বৈজ্ঞানিক উপায়গুলো জানুন।",
       category: "মধু ও পুষ্টি",
       readTime: "৫ মিনিট",
       author: "ডাঃ সুমাইয়া আক্তার (নিউট্রিশনিস্ট)",
-      coverImage: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=1000&auto=format&fit=crop&q=85",
+      coverImage:
+        "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=1000&auto=format&fit=crop&q=85",
       content: `
 ## কেন সুন্দরবনের কাঁচা মধু অনন্য?
 সুন্দরবনের প্রাকৃতিক বনাঞ্চল থেকে সংগৃহীত মধু অ্যান্টিঅক্সিডেন্ট, এনজাইম এবং মিনারেলের এক অবিশ্বাস্য ভাণ্ডার। বাণিজ্যিকভাবে পরিশোধিত মধুতে তাপ প্রয়োগ করার কারণে উপকারী এনজাইম নষ্ট হয়ে যায়, কিন্তু প্রাকৃতিক কাঁচা মধু থাকে সম্পূর্ণ সক্রিয়।
@@ -313,11 +325,13 @@ async function seedRichData() {
       faqs: [
         {
           question: "শীতকালে মধু জমে গেলে কি তা নকল?",
-          answer: "না, সরিষা বা নির্দিষ্ট ফুলের কাঁচা মধু শীতকালে প্রাকৃতিক গ্লুকোজের কারণে জমে স্ফটিক বা ক্রিস্টালাইজ হতে পারে। এটি খাঁটি মধুর অন্যতম বৈশিষ্ট্য।",
+          answer:
+            "না, সরিষা বা নির্দিষ্ট ফুলের কাঁচা মধু শীতকালে প্রাকৃতিক গ্লুকোজের কারণে জমে স্ফটিক বা ক্রিস্টালাইজ হতে পারে। এটি খাঁটি মধুর অন্যতম বৈশিষ্ট্য।",
         },
         {
           question: "শিশুদের মধু খাওয়ানো কি নিরাপদ?",
-          answer: "এক বছরের নিচের শিশুদের কাঁচা মধু খাওয়ানো উচিত নয়। তবে এক বছর বা তার বেশি বয়সীদের জন্য এটি অত্যন্ত উপকারী।",
+          answer:
+            "এক বছরের নিচের শিশুদের কাঁচা মধু খাওয়ানো উচিত নয়। তবে এক বছর বা তার বেশি বয়সীদের জন্য এটি অত্যন্ত উপকারী।",
         },
       ],
       relatedProductHandles: ["swasthyo-organic-honey"],
@@ -326,11 +340,13 @@ async function seedRichData() {
     {
       slug: "cold-pressed-mustard-oil-health-benefits",
       title: "কাঠের ঘানি ভাঙা সরিষার তেল রান্নায় কেন ব্যবহার করবেন?",
-      description: "বাজারের পরিশোধিত সয়াবিন তেলের তুলনায় কাঠের ঘানি ভাঙা সরিষার তেল কেন আপনার হৃদযন্ত্র ও পরিবারের জন্য নিরাপদ।",
+      description:
+        "বাজারের পরিশোধিত সয়াবিন তেলের তুলনায় কাঠের ঘানি ভাঙা সরিষার তেল কেন আপনার হৃদযন্ত্র ও পরিবারের জন্য নিরাপদ।",
       category: "তেল ও ঘি",
       readTime: "৬ মিনিট",
       author: "স্বাস্থ্যকর রিসার্চ টিম",
-      coverImage: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1000&auto=format&fit=crop&q=85",
+      coverImage:
+        "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=1000&auto=format&fit=crop&q=85",
       content: `
 ## ঐতিহ্যবাহী কাঠের ঘানির বিশেষত্ব
 কাঠের ঘানিতে তেল ভাঙার সময় তাপমাত্রা কখনোই বেশি বাড়ে না। ফলে তেলের প্রাকৃতিক ফ্যাটি অ্যাসিড, অ্যান্টিঅক্সিডেন্ট ও ভিটামিন 'ই' অটুট থাকে। কোনো কৃত্রিম কেমিক্যাল বা ব্লিচিং এজেন্ট ছাড়া এটি প্রস্তুত হয়।
@@ -344,7 +360,8 @@ async function seedRichData() {
       faqs: [
         {
           question: "ঘানি ভাঙা তেল কতদিন ভালো থাকে?",
-          answer: "স্বাভাবিক তাপমাত্রায় কাচের বোতল বা মুখবন্ধ পাত্রে রাখলে এটি ৬ মাস থেকে ১ বছর পর্যন্ত টাটকা থাকে।",
+          answer:
+            "স্বাভাবিক তাপমাত্রায় কাচের বোতল বা মুখবন্ধ পাত্রে রাখলে এটি ৬ মাস থেকে ১ বছর পর্যন্ত টাটকা থাকে।",
         },
       ],
       relatedProductHandles: ["swasthyo-cold-pressed-mustard-oil"],
@@ -353,11 +370,13 @@ async function seedRichData() {
     {
       slug: "superfood-chia-seeds-guide",
       title: "চিয়া সিড খাওয়ার সঠিক নিয়ম ও ওজন নিয়ন্ত্রণের উপায়",
-      description: "সুপারফুড চিয়া সিড কখন এবং কিভাবে খেলে সর্বাধিক পুষ্টি ও ওজন নিয়ন্ত্রণের সুবিধা পাওয়া যায়।",
+      description:
+        "সুপারফুড চিয়া সিড কখন এবং কিভাবে খেলে সর্বাধিক পুষ্টি ও ওজন নিয়ন্ত্রণের সুবিধা পাওয়া যায়।",
       category: "সুপারফুড",
       readTime: "৪ মিনিট",
       author: "পুষ্টিবিদ তানভীন আলম",
-      coverImage: "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=1000&auto=format&fit=crop&q=85",
+      coverImage:
+        "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=1000&auto=format&fit=crop&q=85",
       content: `
 ## পুষ্টির পাওয়ারহাউস: চিয়া সিড
 চিয়া সিডে রয়েছে প্রচুর দ্রবণীয় ফাইবার, ওমেগা-৩ ফ্যাটি অ্যাসিড, প্রোটিন, ক্যালসিয়াম এবং অ্যান্টিঅক্সিডেন্ট। পানিতে ভিজিয়ে রাখলে এটি জেলির মতো রূপ ধারণ করে যা পেটে দীর্ঘক্ষণ পূর্ণতার অনুভূতি দেয়।
@@ -370,7 +389,8 @@ async function seedRichData() {
       faqs: [
         {
           question: "শুকনো চিয়া সিড খাওয়া কি নিরাপদ?",
-          answer: "না, চিয়া সিড সবসময় পানিতে ভিজিয়ে জেল তৈরি করে খাওয়া উচিত, কারণ শুকনো চিয়া সিড গলায় আটকে যেতে পারে।",
+          answer:
+            "না, চিয়া সিড সবসময় পানিতে ভিজিয়ে জেল তৈরি করে খাওয়া উচিত, কারণ শুকনো চিয়া সিড গলায় আটকে যেতে পারে।",
         },
       ],
       relatedProductHandles: ["swasthyo-chia-seeds"],
@@ -539,10 +559,18 @@ async function seedRichData() {
   // 8. Product Reviews
   console.log("⭐ Seeding Product Reviews...");
   const sampleProducts = await db.query.products.findMany({ limit: 10 });
-  const honeyProd = sampleProducts.find((p) => p.handle === "swasthyo-organic-honey");
-  const gheeProd = sampleProducts.find((p) => p.handle === "swasthyo-organic-ghee");
-  const mustardProd = sampleProducts.find((p) => p.handle === "swasthyo-cold-pressed-mustard-oil");
-  const chiaProd = sampleProducts.find((p) => p.handle === "swasthyo-chia-seeds");
+  const honeyProd = sampleProducts.find(
+    (p) => p.handle === "swasthyo-organic-honey",
+  );
+  const gheeProd = sampleProducts.find(
+    (p) => p.handle === "swasthyo-organic-ghee",
+  );
+  const mustardProd = sampleProducts.find(
+    (p) => p.handle === "swasthyo-cold-pressed-mustard-oil",
+  );
+  const chiaProd = sampleProducts.find(
+    (p) => p.handle === "swasthyo-chia-seeds",
+  );
 
   const reviewsToInsert = [];
   if (honeyProd) {
@@ -551,20 +579,24 @@ async function seedRichData() {
         productId: honeyProd.id,
         userId: seededUsers["farhana.islam@gmail.com"],
         userName: "ফারহানা ইসলাম",
-        userAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80",
+        userAvatar:
+          "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80",
         rating: 5,
-        comment: "সুন্দরবনের আসল কাঁচা মধু! স্বাদ ও সুবাস অসাধারণ। পরিবারের সবাই খুব পছন্দ করেছে।",
+        comment:
+          "সুন্দরবনের আসল কাঁচা মধু! স্বাদ ও সুবাস অসাধারণ। পরিবারের সবাই খুব পছন্দ করেছে।",
         approved: true,
       },
       {
         productId: honeyProd.id,
         userId: seededUsers["arif.rahman@gmail.com"],
         userName: "আরিফুর রহমান",
-        userAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
+        userAvatar:
+          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
         rating: 5,
-        comment: "প্যাকেজিং এবং ডেলিভারি খুব দ্রুত ছিল। বাজারজাত ভেজাল মধুর সাথে কোনো তুলনাই চলে না।",
+        comment:
+          "প্যাকেজিং এবং ডেলিভারি খুব দ্রুত ছিল। বাজারজাত ভেজাল মধুর সাথে কোনো তুলনাই চলে না।",
         approved: true,
-      }
+      },
     );
   }
 
@@ -573,9 +605,11 @@ async function seedRichData() {
       productId: gheeProd.id,
       userId: seededUsers["nusrat.jahan@gmail.com"],
       userName: "নুসরাত জাহান",
-      userAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
+      userAvatar:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
       rating: 5,
-      comment: "ঘিয়ের সুঘ্রাণে পুরো ঘর ভরে যায়। গরম ভাতে এই ঘি যেন অমৃত! ধন্যবাদ স্বাস্থ্যকর।",
+      comment:
+        "ঘিয়ের সুঘ্রাণে পুরো ঘর ভরে যায়। গরম ভাতে এই ঘি যেন অমৃত! ধন্যবাদ স্বাস্থ্যকর।",
       approved: true,
     });
   }
@@ -585,7 +619,8 @@ async function seedRichData() {
       productId: mustardProd.id,
       userId: seededUsers["farhana.islam@gmail.com"],
       userName: "ফারহানা ইসলাম",
-      userAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80",
+      userAvatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80",
       rating: 5,
       comment: "আসল ঝাঁঝালো সরিষার তেল। ভর্তা আর ইলিশ ভাজায় একদম পারফেক্ট টেস্ট।",
       approved: true,
@@ -597,7 +632,8 @@ async function seedRichData() {
       productId: chiaProd.id,
       userId: seededUsers["arif.rahman@gmail.com"],
       userName: "আরিফুর রহমান",
-      userAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
+      userAvatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
       rating: 5,
       comment: "প্রিমিয়াম কোয়ালিটি চিয়া সিড। কোনো বালু বা ময়লা নেই, একদম ফ্রেশ।",
       approved: true,
@@ -618,7 +654,8 @@ async function seedRichData() {
       handle: "organic-essentials",
       title: "খাঁটি পণ্য",
       subtitle: "মধু, ঘি, তেল ও দৈনন্দিন অর্গানিক প্রয়োজনীয় খাদ্য",
-      image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500&auto=format&fit=crop&q=80",
+      image:
+        "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=500&auto=format&fit=crop&q=80",
       showOnHomepage: true,
       displayOrder: 1,
       maxProducts: 4,
@@ -627,7 +664,8 @@ async function seedRichData() {
       handle: "superfoods-wellness",
       title: "সুপারফুড ও সুস্থতা",
       subtitle: "চিয়া সিড, মোরিঙ্গা, স্পিরুলিনা ও স্বাস্থ্যকর খাবার",
-      image: "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=500&auto=format&fit=crop&q=80",
+      image:
+        "https://images.unsplash.com/photo-1514733670139-4d87a1941d55?w=500&auto=format&fit=crop&q=80",
       showOnHomepage: true,
       displayOrder: 2,
       maxProducts: 4,
@@ -636,7 +674,8 @@ async function seedRichData() {
       handle: "nuts-dry-fruits",
       title: "বাদাম ও খেজুর",
       subtitle: "আমেরিকান কাঠবাদাম, কাজুবাদাম ও মদিনার মরিয়ম খেজুর",
-      image: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=500&auto=format&fit=crop&q=80",
+      image:
+        "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=500&auto=format&fit=crop&q=80",
       showOnHomepage: true,
       displayOrder: 3,
       maxProducts: 4,
@@ -645,7 +684,8 @@ async function seedRichData() {
       handle: "oils-and-ghee",
       title: "তেল ও ঘি",
       subtitle: "ঘানি ভাঙা খাঁটি সরিষার তেল ও সিরাজগঞ্জের গাওয়া ঘি",
-      image: "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=500&auto=format&fit=crop&q=80",
+      image:
+        "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=500&auto=format&fit=crop&q=80",
       showOnHomepage: true,
       displayOrder: 4,
       maxProducts: 4,

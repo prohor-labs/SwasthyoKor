@@ -70,7 +70,6 @@ export default async function AdminProductsPage() {
     };
   });
 
-
   const collectionsList = allCollections.map((c) => ({
     id: c.id,
     title: c.title,

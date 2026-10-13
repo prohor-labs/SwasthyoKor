@@ -15,10 +15,9 @@ export async function POST(req: NextRequest) {
 
     const cart = await addItemToCart(variantId, quantity);
     return NextResponse.json({ cart });
-  } catch (err: any) {
-    return NextResponse.json(
-      { error: err.message || "কার্টে পণ্য যোগ করতে সমস্যা হয়েছে।" },
-      { status: 500 },
-    );
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "কার্টে পণ্য যোগ করতে সমস্যা হয়েছে।";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

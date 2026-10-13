@@ -1,2 +1,2 @@
-export * from "./ProfileForm";
 export * from "./LoyaltyPointsCard";
+export * from "./ProfileForm";

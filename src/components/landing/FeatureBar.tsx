@@ -19,7 +19,7 @@ const features = [
   },
 ];
 
-function FeatureBar() {
+function _FeatureBar() {
   return (
     <section className="border-b border-border/80 bg-muted/40 backdrop-blur-xs">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-4 py-6 text-center sm:grid-cols-4 sm:gap-6">

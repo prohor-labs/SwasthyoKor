@@ -1,5 +1,5 @@
-export * from "@/lib/types";
 export type { ComponentType, ReactNode } from "react";
+export * from "@/lib/types";
 
 export interface Dictionary {
   sidebar?: {

@@ -26,7 +26,7 @@ export interface BlogPost {
   }[];
 }
 
-const BLOG_POSTS: BlogPost[] = [
+const _BLOG_POSTS: BlogPost[] = [
   {
     slug: "how-to-identify-pure-sundarban-honey",
     title: "খাঁটি সুন্দরবনের মধু চেনার বৈজ্ঞানিক উপায় ও স্বাস্থ্য উপকারিতা",

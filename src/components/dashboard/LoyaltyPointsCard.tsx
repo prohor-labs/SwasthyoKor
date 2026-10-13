@@ -1,11 +1,17 @@
 "use client";
 
+import { Coins, Gift, Sparkles } from "lucide-react";
 import { useRef } from "react";
-import { Sparkles, Gift, Coins } from "lucide-react";
-import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import { LOYALTY_CONFIG } from "@/config/loyalty";
 
 export function LoyaltyPointsCard() {
@@ -21,8 +27,12 @@ export function LoyaltyPointsCard() {
 
   return (
     <Card className="relative overflow-hidden rounded-2xl border-emerald-500/30 bg-gradient-to-br from-emerald-50/50 via-background to-amber-50/30 dark:from-emerald-950/20 dark:via-background dark:to-amber-950/10 shadow-xs">
-      <Confetti ref={confettiRef} manualstart className="pointer-events-none absolute inset-0 z-50 size-full" />
-      
+      <Confetti
+        ref={confettiRef}
+        manualstart
+        className="pointer-events-none absolute inset-0 z-50 size-full"
+      />
+
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -56,7 +66,10 @@ export function LoyaltyPointsCard() {
                 {LOYALTY_CONFIG.signupRewardPoints}
               </span>
               <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                পয়েন্ট (৳{LOYALTY_CONFIG.signupRewardPoints * LOYALTY_CONFIG.pointToBdtRate} সমমূল্য)
+                পয়েন্ট (৳
+                {LOYALTY_CONFIG.signupRewardPoints *
+                  LOYALTY_CONFIG.pointToBdtRate}{" "}
+                সমমূল্য)
               </span>
             </div>
           </div>
@@ -78,14 +91,16 @@ export function LoyaltyPointsCard() {
           <div className="flex items-start gap-2 rounded-lg bg-muted/40 p-2.5 border border-border/50">
             <Gift className="size-4 shrink-0 text-amber-500 mt-0.5" />
             <span>
-              <strong>সাইনআপ গিফট:</strong> প্রোফাইল খোলার সাথে সাথেই ফ্রি {LOYALTY_CONFIG.signupRewardPoints} পয়েন্ট উপহার!
+              <strong>সাইনআপ গিফট:</strong> প্রোফাইল খোলার সাথে সাথেই ফ্রি{" "}
+              {LOYALTY_CONFIG.signupRewardPoints} পয়েন্ট উপহার!
             </span>
           </div>
 
           <div className="flex items-start gap-2 rounded-lg bg-muted/40 p-2.5 border border-border/50">
             <Coins className="size-4 shrink-0 text-emerald-500 mt-0.5" />
             <span>
-              <strong>প্রতি অর্ডারে লাভ:</strong> প্রতি ১০০ টাকা কেনাকাটায় ১ পয়েন্ট (১%) রিওয়ার্ড পয়েন্ট জমা হবে।
+              <strong>প্রতি অর্ডারে লাভ:</strong> প্রতি ১০০ টাকা কেনাকাটায় ১ পয়েন্ট (১%)
+              রিওয়ার্ড পয়েন্ট জমা হবে।
             </span>
           </div>
         </div>

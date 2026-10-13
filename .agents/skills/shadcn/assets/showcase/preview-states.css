@@ -10,5 +10,7 @@
     @slot;
   }
 }
-@custom-variant focus-visible (&:focus-visible, &[data-preview~="focus"]);
-@custom-variant active (&:active, &[data-preview~="active"]);
+@custom-variant focus-visible (&:focus-visible,
+&[data-preview~="focus"]);
+@custom-variant active (&:active,
+&[data-preview~="active"]);

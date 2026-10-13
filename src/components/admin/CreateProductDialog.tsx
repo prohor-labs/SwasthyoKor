@@ -7,6 +7,15 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { createProductAction } from "@/lib/actions/admin";
@@ -18,15 +27,6 @@ import {
   getProductUnitLabel,
   type ProductUnit,
 } from "@/lib/types";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import type { ProductVariantItem } from "./EditProductDialog";
 
 export function CreateProductDialog({
@@ -98,7 +98,10 @@ export function CreateProductDialog({
     setRootUnit(newUnit);
     setVariants((prev) =>
       prev.map((v) => {
-        const amt = v.amount && v.amount > 0 ? v.amount : getDefaultAmountForUnit(newUnit);
+        const amt =
+          v.amount && v.amount > 0
+            ? v.amount
+            : getDefaultAmountForUnit(newUnit);
         return {
           ...v,
           unit: newUnit,
@@ -193,7 +196,11 @@ export function CreateProductDialog({
     }
 
     const imageFile = formData.get("image") as File | null;
-    if (imageFile && imageFile.size > 0 && imageFile.type.startsWith("image/")) {
+    if (
+      imageFile &&
+      imageFile.size > 0 &&
+      imageFile.type.startsWith("image/")
+    ) {
       const compressedWebpFile = await compressImageClient(imageFile);
       formData.set("image", compressedWebpFile);
     }
@@ -396,7 +403,8 @@ export function CreateProductDialog({
                   ভ্যারিয়েন্ট / প্যাকসমূহ ({variants.length})
                 </span>
                 <span className="text-[11px] text-muted-foreground font-medium">
-                  (মোট {totalStock} {getProductUnitLabel(rootUnit)} থেকে অটো স্টক হিসাব হবে)
+                  (মোট {totalStock} {getProductUnitLabel(rootUnit)} থেকে অটো স্টক
+                  হিসাব হবে)
                 </span>
               </div>
               <Button
@@ -425,11 +433,14 @@ export function CreateProductDialog({
                       </span>
                       {/* Live Generated Title Tag */}
                       <span className="inline-flex items-center text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20">
-                        {v.title || formatPackTitle(v.amount || 0, rootUnit) || "প্যাক"}
+                        {v.title ||
+                          formatPackTitle(v.amount || 0, rootUnit) ||
+                          "প্যাক"}
                       </span>
                       {/* Live Calculated Pack Stock Badge */}
                       <span className="inline-flex items-center text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
-                        ⚡ অটো স্টক: {getAutoPackStock(v.amount, totalStock)}টি প্যাক
+                        ⚡ অটো স্টক: {getAutoPackStock(v.amount, totalStock)}টি
+                        প্যাক
                       </span>
                     </div>
                     {variants.length > 1 && (
@@ -584,4 +595,3 @@ export function CreateProductDialog({
     </ResponsiveDialog>
   );
 }
-

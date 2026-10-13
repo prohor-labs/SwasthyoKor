@@ -151,9 +151,7 @@ export function ProductQuickView({
           {/* Action Buttons */}
           <div className="flex flex-col gap-2 pt-1">
             <Button
-              render={
-                <Link href={checkoutHref}>সরাসরি অর্ডার করুন</Link>
-              }
+              render={<Link href={checkoutHref}>সরাসরি অর্ডার করুন</Link>}
               size="lg"
               className="w-full rounded-xl bg-emerald-600 font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed shadow-xs h-11 text-sm cursor-pointer"
               disabled={!isAvailable}

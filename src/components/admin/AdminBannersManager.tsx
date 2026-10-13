@@ -8,16 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
-import { Textarea } from "@/components/ui/textarea";
 import {
   createHeroBannerAction,
   deleteHeroBannerAction,
@@ -29,7 +20,7 @@ import { compressImageClient } from "@/lib/image";
 export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<HeroBanner | null>(null);
-  const [createAccentColor, setCreateAccentColor] = useState("text-amber-400");
+  const [createAccentColor, _setCreateAccentColor] = useState("text-amber-400");
   const [editAccentColor, setEditAccentColor] = useState("text-amber-400");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -122,11 +113,17 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
             </Alert>
           )}
 
-          <form onSubmit={handleCreateSubmit} className="flex flex-col gap-3 sm:gap-4">
+          <form
+            onSubmit={handleCreateSubmit}
+            className="flex flex-col gap-3 sm:gap-4"
+          >
             <FieldGroup className="gap-3 sm:gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Field>
-                  <FieldLabel htmlFor="create-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                  <FieldLabel
+                    htmlFor="create-title"
+                    className="text-xs sm:text-sm font-semibold text-foreground/90"
+                  >
                     ব্যানারের নাম / লেবেল (ঐচ্ছিক)
                   </FieldLabel>
                   <Input
@@ -138,7 +135,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="create-link" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                  <FieldLabel
+                    htmlFor="create-link"
+                    className="text-xs sm:text-sm font-semibold text-foreground/90"
+                  >
                     ক্লিক করলে যে পেইজে যাবে (টার্গেট লিঙ্ক)
                   </FieldLabel>
                   <Input
@@ -151,7 +151,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
               </div>
 
               <Field>
-                <FieldLabel htmlFor="create-image" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="create-image"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   ব্যানার ইমেজ ফাইল (বা ইমেজ URL) *
                 </FieldLabel>
                 <Input
@@ -164,7 +167,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="create-imageUrl" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="create-imageUrl"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   অথবা ছবির সরাসরি লিঙ্ক (URL)
                 </FieldLabel>
                 <Input
@@ -279,11 +285,17 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
             </Alert>
           )}
 
-          <form onSubmit={handleEditSubmit} className="flex flex-col gap-3 sm:gap-4">
+          <form
+            onSubmit={handleEditSubmit}
+            className="flex flex-col gap-3 sm:gap-4"
+          >
             <FieldGroup className="gap-3 sm:gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Field>
-                  <FieldLabel htmlFor="edit-title" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                  <FieldLabel
+                    htmlFor="edit-title"
+                    className="text-xs sm:text-sm font-semibold text-foreground/90"
+                  >
                     ব্যানারের নাম / লেবেল (ঐচ্ছিক)
                   </FieldLabel>
                   <Input
@@ -296,7 +308,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="edit-link" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                  <FieldLabel
+                    htmlFor="edit-link"
+                    className="text-xs sm:text-sm font-semibold text-foreground/90"
+                  >
                     ক্লিক করলে যে পেইজে যাবে (টার্গেট লিঙ্ক)
                   </FieldLabel>
                   <Input
@@ -309,7 +324,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
               </div>
 
               <Field>
-                <FieldLabel htmlFor="edit-image" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-image"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   নতুন ব্যানার ইমেজ ফাইল (ঐচ্ছিক)
                 </FieldLabel>
                 <Input
@@ -322,7 +340,10 @@ export function AdminBannersManager({ banners }: { banners: HeroBanner[] }) {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="edit-imageUrl" className="text-xs sm:text-sm font-semibold text-foreground/90">
+                <FieldLabel
+                  htmlFor="edit-imageUrl"
+                  className="text-xs sm:text-sm font-semibold text-foreground/90"
+                >
                   অথবা নতুন ইমেজ URL (ঐচ্ছিক)
                 </FieldLabel>
                 <Input
