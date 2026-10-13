@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
+import { siteConfig } from "@/config";
 import { checkoutDirectProduct } from "@/lib/actions/checkout";
 import { sendPhoneOtpAction, verifyPhoneOtpAction } from "@/lib/actions/otp";
 
@@ -46,9 +47,14 @@ export function DirectCheckoutForm({
   const [couponError, setCouponError] = useState("");
   const [isApplying, setIsApplying] = useState(false);
 
-  // Phone Verification & OTP States
+  // Phone Verification & OTP States (Feature gated via siteConfig)
+  const isVerificationEnabled = Boolean(
+    siteConfig.features?.enablePhoneVerification,
+  );
   const [phone, setPhone] = useState(initialPhone);
-  const [isPhoneVerified, setIsPhoneVerified] = useState(initialPhoneVerified);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(
+    isVerificationEnabled ? initialPhoneVerified : true,
+  );
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState("");
   const [isSendingOtp, setIsSendingOtp] = useState(false);
@@ -72,7 +78,7 @@ export function DirectCheckoutForm({
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setPhone(val);
-    if (isPhoneVerified && val !== initialPhone) {
+    if (isVerificationEnabled && isPhoneVerified && val !== initialPhone) {
       setIsPhoneVerified(false);
       setOtpSent(false);
       setOtpCode("");
@@ -222,13 +228,13 @@ export function DirectCheckoutForm({
             className="text-xs sm:text-sm font-semibold text-foreground/90 flex items-center gap-1.5"
           >
             <span>মোবাইল নম্বর</span>
-            {isPhoneVerified && (
+            {isVerificationEnabled && isPhoneVerified && (
               <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                 <CheckCircle className="size-3" /> যাচাইকৃত
               </span>
             )}
           </Label>
-          {!isPhoneVerified && !otpSent && (
+          {isVerificationEnabled && !isPhoneVerified && !otpSent && (
             <button
               type="button"
               onClick={handleSendOtp}
@@ -254,7 +260,7 @@ export function DirectCheckoutForm({
         </div>
 
         {/* OTP Input Card when OTP is sent */}
-        {!isPhoneVerified && otpSent && (
+        {isVerificationEnabled && !isPhoneVerified && otpSent && (
           <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 space-y-2.5 mt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-foreground">
@@ -330,12 +336,12 @@ export function DirectCheckoutForm({
         )}
 
         {/* Status / Error Alerts for OTP */}
-        {otpError && (
+        {isVerificationEnabled && otpError && (
           <p className="text-[11px] text-red-600 dark:text-red-400 font-medium">
             {otpError}
           </p>
         )}
-        {otpMessage && !otpError && (
+        {isVerificationEnabled && otpMessage && !otpError && (
           <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
             {otpMessage}
           </p>
@@ -474,8 +480,8 @@ export function DirectCheckoutForm({
         </p>
       </div>
 
-      {/* Checkout Submit Button - requires OTP verification */}
-      {!isPhoneVerified ? (
+      {/* Checkout Submit Button - requires OTP verification if enabled */}
+      {isVerificationEnabled && !isPhoneVerified ? (
         <Button
           type="button"
           onClick={handleSendOtp}

@@ -14,6 +14,9 @@ export interface SiteConfig {
     ogImage: string;
     keywords: string[];
   };
+  features: {
+    enablePhoneVerification: boolean;
+  };
 }
 
 export const siteConfig: SiteConfig = {
@@ -44,5 +47,9 @@ export const siteConfig: SiteConfig = {
       "মসলা",
       "সুপারফুড",
     ],
+  },
+  features: {
+    // Set to true in future when SMS OTP verification should be enabled in checkout/orders
+    enablePhoneVerification: false,
   },
 };
