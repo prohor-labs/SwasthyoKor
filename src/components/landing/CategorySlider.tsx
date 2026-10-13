@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 
 export interface CategoryItem {
   id?: string;
-  name: string;
+  name?: string;
+  title?: string;
   nameEn?: string;
-  image: string;
+  image?: string;
   href: string;
 }
 
@@ -83,39 +84,44 @@ export function CategorySlider({
           ref={scrollContainerRef}
           className="flex gap-4 overflow-x-auto pb-2 pt-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-6"
         >
-          {categories.map((category, index) => (
-            <Link
-              key={`${category.name}-${index}`}
-              href={category.href}
-              className="group flex flex-col items-center text-center shrink-0 w-[88px] sm:w-[104px] md:w-[116px] transition-transform duration-200"
-            >
-              {/* Category Image Circle */}
-              <div className="relative size-[76px] sm:size-[92px] md:size-[100px] overflow-hidden rounded-full border-2 border-emerald-100/80 bg-card p-1 shadow-xs transition-all duration-300 group-hover:scale-105 group-hover:border-emerald-600 group-hover:shadow-sm dark:border-emerald-950/80">
-                <div className="relative size-full overflow-hidden rounded-full bg-muted">
-                  <Image
-                    src={category.image}
-                    alt={category.name}
-                    fill
-                    sizes="(min-width: 768px) 100px, 80px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
+          {categories.map((category, index) => {
+            const displayName = category.name || category.title || "ক্যাটাগরি";
+            const displayImage = category.image || "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80";
 
-              {/* Category Name */}
-              <div className="mt-2 flex flex-col items-center">
-                <span className="line-clamp-2 text-xs font-semibold text-foreground/90 transition-colors duration-200 group-hover:text-emerald-600 sm:text-[13px] dark:group-hover:text-emerald-400">
-                  {category.name}
-                </span>
-                {category.nameEn && (
-                  <span className="hidden text-[10px] text-muted-foreground sm:inline-block">
-                    {category.nameEn}
+            return (
+              <Link
+                key={category.id || `${displayName}-${index}`}
+                href={category.href}
+                className="group flex flex-col items-center text-center shrink-0 w-[88px] sm:w-[104px] md:w-[116px] transition-transform duration-200"
+              >
+                {/* Category Image Circle */}
+                <div className="relative size-[76px] sm:size-[92px] md:size-[100px] overflow-hidden rounded-full border-2 border-emerald-100/80 bg-card p-1 shadow-xs transition-all duration-300 group-hover:scale-105 group-hover:border-emerald-600 group-hover:shadow-sm dark:border-emerald-950/80">
+                  <div className="relative size-full overflow-hidden rounded-full bg-muted">
+                    <Image
+                      src={displayImage}
+                      alt={displayName}
+                      fill
+                      sizes="(min-width: 768px) 100px, 80px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Name */}
+                <div className="mt-2 flex flex-col items-center">
+                  <span className="line-clamp-2 text-xs font-semibold text-foreground/90 transition-colors duration-200 group-hover:text-emerald-600 sm:text-[13px] dark:group-hover:text-emerald-400">
+                    {displayName}
                   </span>
-                )}
-              </div>
-            </Link>
-          ))}
+                  {category.nameEn && (
+                    <span className="hidden text-[10px] text-muted-foreground sm:inline-block">
+                      {category.nameEn}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

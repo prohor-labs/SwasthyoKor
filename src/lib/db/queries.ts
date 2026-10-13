@@ -337,12 +337,13 @@ export const getCategorySliderCategories = cache(async () => {
 
   return rows.map((c) => ({
     id: c.id,
+    name: c.title,
     title: c.title,
     handle: c.handle,
     description: c.description ?? "",
     subtitle: c.subtitle ?? undefined,
-    image: c.image ?? undefined,
-    href: `/categories/${c.handle}`,
+    image: c.image || "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80",
+    href: `/category/${c.handle}`,
   }));
 });
 
