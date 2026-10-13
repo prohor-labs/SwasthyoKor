@@ -42,5 +42,3 @@ export const LOYALTY_CONFIG: LoyaltyRewardsConfig = {
   minRedemptionPoints: 20,
   maxRedemptionPercentage: 50,
 };
-
-export default LOYALTY_CONFIG;

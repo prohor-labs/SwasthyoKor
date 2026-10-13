@@ -26,7 +26,7 @@ export interface CompressImageOptions {
  * @param options Custom compression options
  * @returns The optimized WebP File
  */
-export async function compressImage(
+export async function compressImageClient(
   file: File,
   options: CompressImageOptions = {},
 ): Promise<File> {
@@ -59,7 +59,4 @@ export async function compressImage(
     return file;
   }
 }
-
-// Alias for backward compatibility
-export const compressImageClient = compressImage;
 
