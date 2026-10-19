@@ -15,6 +15,7 @@ import {
   productVariants,
   storeSettings,
 } from "../db/schema";
+import { uploadObject } from "../storage";
 
 async function requireAdmin() {
   const user = await getCurrentUser();
@@ -51,11 +52,27 @@ export async function createProductAction(formData: FormData) {
       title?.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const description = (formData.get("description") as string)?.trim() || "";
     const price = Number(formData.get("price") || 0);
-    const imageUrl = (formData.get("imageUrl") as string)?.trim();
+    let imageUrl = (formData.get("imageUrl") as string)?.trim() || "";
+    const imageFile = formData.get("image") as File | null;
     const collectionId = formData.get("collectionId") as string;
 
     if (!title || !handle) {
       return { success: false, error: "পণ্যের শিরোনাম এবং হ্যান্ডেল আবশ্যক।" };
+    }
+
+    if (imageFile && imageFile.size > 0) {
+      try {
+        const ext = imageFile.name.split(".").pop() || "webp";
+        const key = `products/${handle}-${Date.now()}.${ext}`;
+        const buffer = Buffer.from(await imageFile.arrayBuffer());
+        imageUrl = await uploadObject({
+          key,
+          body: buffer,
+          contentType: imageFile.type || "image/webp",
+        });
+      } catch (uploadErr) {
+        console.error("Failed to upload product image to S3:", uploadErr);
+      }
     }
 
     const id = `prod_${crypto.randomUUID().slice(0, 8)}`;
@@ -183,6 +200,37 @@ export async function updateProductAction(formData: FormData) {
           productId: id,
           collectionId,
         });
+      }
+    }
+
+    const imageFile = formData.get("image") as File | null;
+    if (imageFile && imageFile.size > 0) {
+      try {
+        const ext = imageFile.name.split(".").pop() || "webp";
+        const key = `products/${id}-${Date.now()}.${ext}`;
+        const buffer = Buffer.from(await imageFile.arrayBuffer());
+        const imageUrl = await uploadObject({
+          key,
+          body: buffer,
+          contentType: imageFile.type || "image/webp",
+        });
+
+        // Delete existing image or insert/update
+        await db.delete(productImages).where(eq(productImages.productId, id));
+        await db.insert(productImages).values({
+          id: crypto.randomUUID(),
+          productId: id,
+          url: imageUrl,
+          altText: title,
+          width: 800,
+          height: 800,
+          position: 0,
+        });
+      } catch (uploadErr) {
+        console.error(
+          "Failed to upload updated product image to S3:",
+          uploadErr,
+        );
       }
     }
 
