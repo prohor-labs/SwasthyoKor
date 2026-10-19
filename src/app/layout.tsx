@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { QueryProvider } from "@/components/query-provider";
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Toaster />
           <FloatingWhatsApp />
         </QueryProvider>
+        <GoogleAnalytics gaId="G-6WCFP9RNMM" />
       </body>
     </html>
   );
